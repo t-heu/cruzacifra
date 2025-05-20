@@ -1,40 +1,40 @@
 import {Word} from "../app/interfaces";
 
-export function generateWordCrosswords(palavras: Word[]) {
+export function generateWordCrosswords(words: Word[]) {
   const tamanho = 10;
   const tabuleiro = Array.from({ length: tamanho }, () => Array(tamanho).fill(null));
   const resultado: Word[] = [];
   
-  const colocarPalavra = (palavra: string, linha: number, coluna: number, direcao: "horizontal" | "vertical", dica: string) => {
-    for (let i = 0; i < palavra.length; i++) {
-      const l = direcao === "horizontal" ? linha : linha + i;
-      const c = direcao === "horizontal" ? coluna + i : coluna;
-      tabuleiro[l][c] = palavra[i];
+  const colocarPalavra = (word: string, row: number, column: number, direction: "horizontal" | "vertical", tip: string) => {
+    for (let i = 0; i < word.length; i++) {
+      const l = direction === "horizontal" ? row : row + i;
+      const c = direction === "horizontal" ? column + i : column;
+      tabuleiro[l][c] = word[i];
     }
-    resultado.push({ palavra, linha, coluna, direcao, dica });
+    resultado.push({ word, row, column, direction, tip });
   };
   
-  // Coloca a primeira palavra no centro
-  const primeira = palavras[0].palavra;
+  // Coloca a primeira word no centro
+  const primeira = words[0].word;
   const linhaCentro = Math.floor(tamanho / 2);
   const colunaCentro = Math.floor((tamanho - primeira.length) / 2);
-  colocarPalavra(primeira, linhaCentro, colunaCentro, "horizontal", palavras[0].dica);
+  colocarPalavra(primeira, linhaCentro, colunaCentro, "horizontal", words[0].tip);
   
-  for (let i = 1; i < palavras.length; i++) {
-    const atual = palavras[i].palavra;
-    const dica = palavras[i].dica;
+  for (let i = 1; i < words.length; i++) {
+    const atual = words[i].word;
+    const tip = words[i].tip;
     let colocada = false;
     
     for (const colocadaAntes of resultado) {
-      const { palavra: existente, linha, coluna, direcao, dica } = colocadaAntes;
+      const { word: existente, row, column, direction, tip } = colocadaAntes;
       
       for (let iExistente = 0; iExistente < existente.length; iExistente++) {
         for (let iAtual = 0; iAtual < atual.length; iAtual++) {
           if (existente[iExistente] !== atual[iAtual]) continue;
           
-          const l = direcao === "horizontal" ? linha - iAtual : linha + iExistente;
-          const c = direcao === "horizontal" ? coluna + iExistente : coluna - iAtual;
-          const novaDirecao = direcao === "horizontal" ? "vertical" : "horizontal";
+          const l = direction === "horizontal" ? row - iAtual : row + iExistente;
+          const c = direction === "horizontal" ? column + iExistente : column - iAtual;
+          const novaDirecao = direction === "horizontal" ? "vertical" : "horizontal";
           
           let podeColocar = true;
           for (let k = 0; k < atual.length; k++) {
@@ -52,7 +52,7 @@ export function generateWordCrosswords(palavras: Word[]) {
           }
           
           if (podeColocar) {
-            colocarPalavra(atual, l, c, novaDirecao, dica);
+            colocarPalavra(atual, l, c, novaDirecao, tip);
             colocada = true;
             break;
           }
@@ -74,7 +74,7 @@ export function generateWordCrosswords(palavras: Word[]) {
               }
             }
             if (pode) {
-              colocarPalavra(atual, l, c, "horizontal", dica);
+              colocarPalavra(atual, l, c, "horizontal", tip);
               break outer;
             }
           }
@@ -84,14 +84,14 @@ export function generateWordCrosswords(palavras: Word[]) {
   }
   
   // Atualiza os objetos originais com posição e direção
-  for (const item of palavras) {
-    const pos = resultado.find(r => r.palavra === item.palavra);
+  for (const item of words) {
+    const pos = resultado.find(r => r.word === item.word);
     if (pos) {
-      item.linha = pos.linha;
-      item.coluna = pos.coluna;
-      item.direcao = pos.direcao;
+      item.row = pos.row;
+      item.column = pos.column;
+      item.direction = pos.direction;
     }
   }
   
-  return palavras;
+  return words;
 }

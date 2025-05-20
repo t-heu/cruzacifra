@@ -9,14 +9,14 @@ export const renderTips = (currentChallenge: Challenge | null, tipsRevealed: num
   return (
     <div className="space-y-2 mb-4">
       <h3 className="font-medium">Dicas:</h3>
-      {currentChallenge.palavras.map((palavra, index) => (
+      {currentChallenge.words.map((word, index) => (
         <div key={index} className="flex items-center justify-between">
           <div className="flex items-center">
             <span className="text-sm border border-gray-300 rounded px-2 py-0.5 mr-2 bg-gray-50">
-              {palavra.direcao === "horizontal" ? "→" : "↓"}
+              {word.direction === "horizontal" ? "→" : "↓"}
             </span>
             {tipsRevealed.includes(index) ? (
-              <span>{palavra.dica}</span>
+              <span>{word.tip}</span>
             ) : (
               <span className="text-gray-400">Dica oculta</span>
             )}

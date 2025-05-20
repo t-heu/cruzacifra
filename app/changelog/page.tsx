@@ -90,6 +90,8 @@ export default function ChangelogPage() {
       description: "Pequenos Lançamento",
       changes: [
         { type: "new", text: "Adicionado novos temas" },
+        { type: "new", text: "Adicionado dicionario" },
+        { type: "fix", text: "Corrigido alguns bugs" },
       ],
     },
     {

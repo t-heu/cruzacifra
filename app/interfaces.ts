@@ -1,13 +1,13 @@
 export interface Word {
-  palavra: string
-  dica: string
-  linha: number
-  coluna: number
-  direcao: "horizontal" | "vertical"
+  word: string
+  tip: string
+  row: number
+  column: number
+  direction: "horizontal" | "vertical"
 }
 
 export interface Challenge {
   id: number
-  titulo: string
-  palavras: Word[]
+  title: string
+  words: Word[]
 }

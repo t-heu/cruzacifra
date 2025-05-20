@@ -18,9 +18,9 @@ import challengesRaw from "../challenges.json";
 
 const CHALLENGES: Challenge[] = challengesRaw.map(challenge => ({
   ...challenge,
-  palavras: challenge.palavras.map(p => ({
+  words: challenge.words.map(p => ({
     ...p,
-    direcao: (p.direcao === "horizontal" || p.direcao === "vertical") ? p.direcao : "horizontal",
+    direction: (p.direction === "horizontal" || p.direction === "vertical") ? p.direction : "horizontal",
   })),
 }));
 
@@ -88,7 +88,7 @@ export default function Page() {
 
     // Configura o desafio
     setCurrentChallenge(desafioHoje)
-    const { grid: novaGrade, code: novoCodigo, letrasUnicas: novasLetrasUnicas } = gerarGradeECodigo(desafioHoje)
+    const { grid: novaGrade, code: novoCodigo } = gerarGradeECodigo(desafioHoje)
     setGrid(novaGrade)
     setCode(novoCodigo)
 
@@ -162,17 +162,17 @@ export default function Page() {
     let maxLinha = 0
     let maxColuna = 0
 
-    const newWords = generateWordCrosswords(desafio.palavras)
-    desafio.palavras = newWords;
+    const newWords = generateWordCrosswords(desafio.words)
+    desafio.words = newWords;
 
-    desafio.palavras.forEach((palavra) => {
-      const comprimento = palavra.palavra.length
-      if (palavra.direcao === "horizontal") {
-        maxLinha = Math.max(maxLinha, palavra.linha + 1)
-        maxColuna = Math.max(maxColuna, palavra.coluna + comprimento)
+    desafio.words.forEach((word) => {
+      const comprimento = word.word.length
+      if (word.direction === "horizontal") {
+        maxLinha = Math.max(maxLinha, word.row + 1)
+        maxColuna = Math.max(maxColuna, word.column + comprimento)
       } else {
-        maxLinha = Math.max(maxLinha, palavra.linha + comprimento)
-        maxColuna = Math.max(maxColuna, palavra.coluna + 1)
+        maxLinha = Math.max(maxLinha, word.row + comprimento)
+        maxColuna = Math.max(maxColuna, word.column + 1)
       }
     })
 
@@ -181,22 +181,22 @@ export default function Page() {
       .fill(null)
       .map(() => Array(maxColuna).fill(""))
 
-    // Preenche a grade com as palavras
-    desafio.palavras.forEach((palavra) => {
-      const letras = palavra.palavra.split("")
+    // Preenche a grade com as words
+    desafio.words.forEach((word) => {
+      const letras = word.word.split("")
       letras.forEach((letra, index) => {
-        if (palavra.direcao === "horizontal") {
-          novaGrade[palavra.linha][palavra.coluna + index] = letra
+        if (word.direction === "horizontal") {
+          novaGrade[word.row][word.column + index] = letra
         } else {
-          novaGrade[palavra.linha + index][palavra.coluna] = letra
+          novaGrade[word.row + index][word.column] = letra
         }
       })
     })
 
     // Cria um conjunto de letras únicas na grade
     const letrasUnicasSet = new Set<string>()
-    novaGrade.forEach((linha) => {
-      linha.forEach((letra) => {
+    novaGrade.forEach((row) => {
+      row.forEach((letra) => {
         if (letra) {
           letrasUnicasSet.add(letra)
         }
@@ -213,8 +213,8 @@ export default function Page() {
     })
 
     // Codifica a grade
-    const gradeCodificada: string[][] = novaGrade.map((linha) =>
-      linha.map((letra) => {
+    const gradeCodificada: string[][] = novaGrade.map((row) =>
+      row.map((letra) => {
         if (!letra) return ""
         const letraCodificada = Object.keys(novoCodigo).find((key) => novoCodigo[key] === letra) || ""
         return letraCodificada
@@ -247,7 +247,7 @@ export default function Page() {
     return `${horas.toString().padStart(2, "0")}:${minutos.toString().padStart(2, "0")}:${segundos.toString().padStart(2, "0")}`
   }
 
-  // Revela uma dica
+  // Revela uma tip
   const revelarDica = (index: number) => {
     if (tipsRevealed.includes(index)) return
 
@@ -319,7 +319,7 @@ export default function Page() {
           <div className="mb-4 text-center">
             <h1 className="text-xl font-semibold">Cruzacifra</h1>
             <p className="text-gray-600">
-              Decifre o código para revelar as palavras cruzadas codificadas do dia: {currentChallenge?.titulo || ""}
+              Decifre o código para revelar as words cruzadas codificadas do dia: {currentChallenge?.title || ""}
             </p>
           </div>
 
@@ -433,11 +433,11 @@ export default function Page() {
             <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
               <h2 className="text-lg font-semibold mb-2">Como jogar</h2>
               <p className="mb-2">
-                Neste jogo, você precisa decifrar um código para revelar as palavras cruzadas.
+                Neste jogo, você precisa decifrar um código para revelar as words cruzadas.
               </p>
               <ol className="list-decimal pl-5 space-y-1 mb-4 text-sm text-gray-700">
                 <li>Cada letra foi substituída por outra letra do alfabeto</li>
-                <li>Use as dicas para tentar descobrir quais palavras estão escondidas</li>
+                <li>Use as dicas para tentar descobrir quais words estão escondidas</li>
                 <li>Digite suas suposições no decodificador abaixo da grade</li>
                 <li>Você pode revelar dicas ou letras se precisar de ajuda</li>
               </ol>

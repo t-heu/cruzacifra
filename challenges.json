@@ -1,206 +1,206 @@
 [
   {
     "id": 1,
-    "titulo": "Animais",
-    "palavras": [
-      { "palavra": "LOBO", "dica": "Animal que uiva", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "TATU", "dica": "Animal com casco duro", "linha": 2, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "ONÇA", "dica": "Felino que vive nas matas", "linha": 0, "coluna": 0, "direcao": "vertical" },
-      { "palavra": "URSO", "dica": "Grande animal peludo", "linha": 0, "coluna": 3, "direcao": "vertical" },
-      { "palavra": "CORUJA", "dica": "Animal noturno de olhos grandes", "linha": 0, "coluna": 1, "direcao": "vertical" }
+    "title": "Animais",
+    "words": [
+      { "word": "LOBO", "tip": "Animal que uiva", "row": 0, "column": 0, "direction": "horizontal" },
+      { "word": "TATU", "tip": "Animal com casco duro", "row": 2, "column": 0, "direction": "horizontal" },
+      { "word": "ONÇA", "tip": "Felino que vive nas matas", "row": 0, "column": 0, "direction": "vertical" },
+      { "word": "URSO", "tip": "Grande animal peludo", "row": 0, "column": 3, "direction": "vertical" },
+      { "word": "CORUJA", "tip": "Animal noturno de olhos grandes", "row": 0, "column": 1, "direction": "vertical" }
     ]
   },
   {
     "id": 2,
-    "titulo": "Frutas",
-    "palavras": [
-      { "palavra": "LIMA", "dica": "Fruta cítrica pequena", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "ROMÃ", "dica": "Fruta vermelha com sementes", "linha": 2, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "LARANJA", "dica": "Fruta cítrica laranja", "linha": 0, "coluna": 0, "direcao": "vertical" },
-      { "palavra": "AMORA", "dica": "Fruta preta roxa pequena", "linha": 0, "coluna": 5, "direcao": "vertical" },
-      { "palavra": "UVA", "dica": "Fruta usada para fazer vinho", "linha": 4, "coluna": 3, "direcao": "horizontal" }
+    "title": "Frutas",
+    "words": [
+      { "word": "LIMA", "tip": "Fruta cítrica pequena", "row": 0, "column": 0, "direction": "horizontal" },
+      { "word": "ROMÃ", "tip": "Fruta vermelha com sementes", "row": 2, "column": 0, "direction": "horizontal" },
+      { "word": "LARANJA", "tip": "Fruta cítrica laranja", "row": 0, "column": 0, "direction": "vertical" },
+      { "word": "AMORA", "tip": "Fruta preta roxa pequena", "row": 0, "column": 5, "direction": "vertical" },
+      { "word": "UVA", "tip": "Fruta usada para fazer vinho", "row": 4, "column": 3, "direction": "horizontal" }
     ]
   },
   {
     "id": 3,
-    "titulo": "Países",
-    "palavras": [
-      { "palavra": "BRASIL", "dica": "País da América do Sul", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "CANADÁ", "dica": "País frio da América do Norte", "linha": 2, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "CHINA", "dica": "País mais populoso do mundo", "linha": 0, "coluna": 0, "direcao": "vertical" },
-      { "palavra": "ÍNDIA", "dica": "País com muitos festivais", "linha": 0, "coluna": 3, "direcao": "vertical" },
-      { "palavra": "EGITO", "dica": "País das pirâmides", "linha": 0, "coluna": 5, "direcao": "vertical" }
+    "title": "Países",
+    "words": [
+      { "word": "BRASIL", "tip": "País da América do Sul", "row": 0, "column": 0, "direction": "horizontal" },
+      { "word": "CANADÁ", "tip": "País frio da América do Norte", "row": 2, "column": 0, "direction": "horizontal" },
+      { "word": "CHINA", "tip": "País mais populoso do mundo", "row": 0, "column": 0, "direction": "vertical" },
+      { "word": "ÍNDIA", "tip": "País com muitos festivais", "row": 0, "column": 3, "direction": "vertical" },
+      { "word": "EGITO", "tip": "País das pirâmides", "row": 0, "column": 5, "direction": "vertical" }
     ]
   },
   {
     "id": 4,
-    "titulo": "Objetos mágicos",
-    "palavras": [
-      { "palavra": "VARINHA", "dica": "Objeto usado por bruxos", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "GRIMORIO", "dica": "Livro de feitiços", "linha": 2, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "ANEL", "dica": "Pequeno objeto usado no dedo", "linha": 0, "coluna": 0, "direcao": "vertical" },
-      { "palavra": "POÇÃO", "dica": "Líquido mágico em frasco", "linha": 0, "coluna": 3, "direcao": "vertical" },
-      { "palavra": "CAPUZ", "dica": "Roupa com capuz usada por magos", "linha": 0, "coluna": 6, "direcao": "vertical" }
+    "title": "Objetos mágicos",
+    "words": [
+      { "word": "VARINHA", "tip": "Objeto usado por bruxos", "row": 0, "column": 0, "direction": "horizontal" },
+      { "word": "GRIMORIO", "tip": "Livro de feitiços", "row": 2, "column": 0, "direction": "horizontal" },
+      { "word": "ANEL", "tip": "Pequeno objeto usado no dedo", "row": 0, "column": 0, "direction": "vertical" },
+      { "word": "POÇÃO", "tip": "Líquido mágico em frasco", "row": 0, "column": 3, "direction": "vertical" },
+      { "word": "CAPUZ", "tip": "Roupa com capuz usada por magos", "row": 0, "column": 6, "direction": "vertical" }
     ]
   },
   {
     "id": 5,
-    "titulo": "Partes do corpo humano",
-    "palavras": [
-      { "palavra": "CORAÇÃO", "dica": "Órgão que bombeia sangue", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "PULMÃO", "dica": "Órgão da respiração", "linha": 1, "coluna": 2, "direcao": "vertical" },
-      { "palavra": "OSSOS", "dica": "Formam o esqueleto", "linha": 3, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "RIM", "dica": "Órgão que filtra o sangue", "linha": 0, "coluna": 5, "direcao": "vertical" },
-      { "palavra": "CÉREBRO", "dica": "Centro de controle do corpo", "linha": 5, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "FÍGADO", "dica": "Órgão que ajuda na digestão", "linha": 1, "coluna": 7, "direcao": "vertical" },
-      { "palavra": "LÍNGUA", "dica": "Músculo usado para falar e saborear", "linha": 2, "coluna": 1, "direcao": "horizontal" },
-      { "palavra": "VEIAS", "dica": "Canais por onde passa o sangue", "linha": 7, "coluna": 2, "direcao": "horizontal" },
-      { "palavra": "OLHO", "dica": "Órgão da visão", "linha": 3, "coluna": 5, "direcao": "vertical" },
-      { "palavra": "PELE", "dica": "Maior órgão do corpo humano", "linha": 6, "coluna": 4, "direcao": "horizontal" }
+    "title": "Partes do corpo humano",
+    "words": [
+      { "word": "CORAÇÃO", "tip": "Órgão que bombeia sangue", "row": 0, "column": 0, "direction": "horizontal" },
+      { "word": "PULMÃO", "tip": "Órgão da respiração", "row": 1, "column": 2, "direction": "vertical" },
+      { "word": "OSSOS", "tip": "Formam o esqueleto", "row": 3, "column": 0, "direction": "horizontal" },
+      { "word": "RIM", "tip": "Órgão que filtra o sangue", "row": 0, "column": 5, "direction": "vertical" },
+      { "word": "CÉREBRO", "tip": "Centro de controle do corpo", "row": 5, "column": 0, "direction": "horizontal" },
+      { "word": "FÍGADO", "tip": "Órgão que ajuda na digestão", "row": 1, "column": 7, "direction": "vertical" },
+      { "word": "LÍNGUA", "tip": "Músculo usado para falar e saborear", "row": 2, "column": 1, "direction": "horizontal" },
+      { "word": "VEIAS", "tip": "Canais por onde passa o sangue", "row": 7, "column": 2, "direction": "horizontal" },
+      { "word": "OLHO", "tip": "Órgão da visão", "row": 3, "column": 5, "direction": "vertical" },
+      { "word": "PELE", "tip": "Maior órgão do corpo humano", "row": 6, "column": 4, "direction": "horizontal" }
     ]
   },
   {
     "id": 6,
-    "titulo": "Elementos químicos",
-    "palavras": [
-      { "palavra": "HIDROGÊNIO", "dica": "Elemento mais leve", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "OXIGÊNIO", "dica": "Essencial para respiração", "linha": 2, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "FERRO", "dica": "Símbolo Fe", "linha": 0, "coluna": 3, "direcao": "vertical" },
-      { "palavra": "OURO", "dica": "Metal precioso de símbolo Au", "linha": 4, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "CÁLCIO", "dica": "Fortalece ossos", "linha": 1, "coluna": 5, "direcao": "vertical" },
-      { "palavra": "SÓDIO", "dica": "Presente no sal de cozinha", "linha": 6, "coluna": 1, "direcao": "horizontal" },
-      { "palavra": "PRATA", "dica": "Metal de símbolo Ag", "linha": 3, "coluna": 6, "direcao": "vertical" },
-      { "palavra": "ZINCO", "dica": "Importante para o sistema imunológico", "linha": 7, "coluna": 2, "direcao": "horizontal" },
-      { "palavra": "LÍTIO", "dica": "Usado em baterias", "linha": 5, "coluna": 0, "direcao": "vertical" },
-      { "palavra": "URÂNIO", "dica": "Usado em energia nuclear", "linha": 8, "coluna": 3, "direcao": "horizontal" }
+    "title": "Elementos químicos",
+    "words": [
+      { "word": "HIDROGÊNIO", "tip": "Elemento mais leve", "row": 0, "column": 0, "direction": "horizontal" },
+      { "word": "OXIGÊNIO", "tip": "Essencial para respiração", "row": 2, "column": 0, "direction": "horizontal" },
+      { "word": "FERRO", "tip": "Símbolo Fe", "row": 0, "column": 3, "direction": "vertical" },
+      { "word": "OURO", "tip": "Metal precioso de símbolo Au", "row": 4, "column": 0, "direction": "horizontal" },
+      { "word": "CÁLCIO", "tip": "Fortalece ossos", "row": 1, "column": 5, "direction": "vertical" },
+      { "word": "SÓDIO", "tip": "Presente no sal de cozinha", "row": 6, "column": 1, "direction": "horizontal" },
+      { "word": "PRATA", "tip": "Metal de símbolo Ag", "row": 3, "column": 6, "direction": "vertical" },
+      { "word": "ZINCO", "tip": "Importante para o sistema imunológico", "row": 7, "column": 2, "direction": "horizontal" },
+      { "word": "LÍTIO", "tip": "Usado em baterias", "row": 5, "column": 0, "direction": "vertical" },
+      { "word": "URÂNIO", "tip": "Usado em energia nuclear", "row": 8, "column": 3, "direction": "horizontal" }
     ]
   },
   {
     "id": 7,
-    "titulo": "Mitologia grega",
-    "palavras": [
-      { "palavra": "ZEUS", "dica": "Deus do trovão", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "HERA", "dica": "Deusa do casamento", "linha": 1, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "HADES", "dica": "Deus do submundo", "linha": 0, "coluna": 2, "direcao": "vertical" },
-      { "palavra": "ARES", "dica": "Deus da guerra", "linha": 3, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "POSEIDON", "dica": "Deus dos mares", "linha": 0, "coluna": 5, "direcao": "vertical" },
-      { "palavra": "AFRODITE", "dica": "Deusa da beleza", "linha": 5, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "APOLO", "dica": "Deus do sol e da música", "linha": 2, "coluna": 6, "direcao": "vertical" },
-      { "palavra": "ATENA", "dica": "Deusa da sabedoria", "linha": 7, "coluna": 2, "direcao": "horizontal" },
-      { "palavra": "DEMÉTER", "dica": "Deusa da agricultura", "linha": 3, "coluna": 8, "direcao": "vertical" },
-      { "palavra": "DIONISO", "dica": "Deus do vinho e festas", "linha": 9, "coluna": 1, "direcao": "horizontal" }
+    "title": "Mitologia grega",
+    "words": [
+      { "word": "ZEUS", "tip": "Deus do trovão", "row": 0, "column": 0, "direction": "horizontal" },
+      { "word": "HERA", "tip": "Deusa do casamento", "row": 1, "column": 0, "direction": "horizontal" },
+      { "word": "HADES", "tip": "Deus do submundo", "row": 0, "column": 2, "direction": "vertical" },
+      { "word": "ARES", "tip": "Deus da guerra", "row": 3, "column": 0, "direction": "horizontal" },
+      { "word": "POSEIDON", "tip": "Deus dos mares", "row": 0, "column": 5, "direction": "vertical" },
+      { "word": "AFRODITE", "tip": "Deusa da beleza", "row": 5, "column": 0, "direction": "horizontal" },
+      { "word": "APOLO", "tip": "Deus do sol e da música", "row": 2, "column": 6, "direction": "vertical" },
+      { "word": "ATENA", "tip": "Deusa da sabedoria", "row": 7, "column": 2, "direction": "horizontal" },
+      { "word": "DEMÉTER", "tip": "Deusa da agricultura", "row": 3, "column": 8, "direction": "vertical" },
+      { "word": "DIONISO", "tip": "Deus do vinho e festas", "row": 9, "column": 1, "direction": "horizontal" }
     ]
   },
   {
     "id": 8,
-    "titulo": "Tecnologia e informática",
-    "palavras": [
-      { "palavra": "ALGORITMO", "dica": "Sequência de instruções", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "PROCESSADOR", "dica": "Cérebro do computador", "linha": 1, "coluna": 4, "direcao": "vertical" },
-      { "palavra": "FIREWALL", "dica": "Proteção contra invasões", "linha": 2, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "SISTEMA", "dica": "Conjunto organizado de elementos", "linha": 0, "coluna": 2, "direcao": "vertical" },
-      { "palavra": "BACKUP", "dica": "Cópia de segurança", "linha": 4, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "SENSOR", "dica": "Detecta alterações físicas", "linha": 6, "coluna": 1, "direcao": "horizontal" },
-      { "palavra": "PYTHON", "dica": "Linguagem de programação", "linha": 3, "coluna": 6, "direcao": "vertical" },
-      { "palavra": "PIXEL", "dica": "Unidade mínima de imagem", "linha": 8, "coluna": 2, "direcao": "horizontal" },
-      { "palavra": "NAVEGADOR", "dica": "Acessa páginas web", "linha": 0, "coluna": 7, "direcao": "vertical" },
-      { "palavra": "LOGIN", "dica": "Entrada no sistema", "linha": 9, "coluna": 5, "direcao": "horizontal" }
+    "title": "Tecnologia e informática",
+    "words": [
+      { "word": "ALGORITMO", "tip": "Sequência de instruções", "row": 0, "column": 0, "direction": "horizontal" },
+      { "word": "PROCESSADOR", "tip": "Cérebro do computador", "row": 1, "column": 4, "direction": "vertical" },
+      { "word": "FIREWALL", "tip": "Proteção contra invasões", "row": 2, "column": 0, "direction": "horizontal" },
+      { "word": "SISTEMA", "tip": "Conjunto organizado de elementos", "row": 0, "column": 2, "direction": "vertical" },
+      { "word": "BACKUP", "tip": "Cópia de segurança", "row": 4, "column": 0, "direction": "horizontal" },
+      { "word": "SENSOR", "tip": "Detecta alterações físicas", "row": 6, "column": 1, "direction": "horizontal" },
+      { "word": "PYTHON", "tip": "Linguagem de programação", "row": 3, "column": 6, "direction": "vertical" },
+      { "word": "PIXEL", "tip": "Unidade mínima de imagem", "row": 8, "column": 2, "direction": "horizontal" },
+      { "word": "NAVEGADOR", "tip": "Acessa páginas web", "row": 0, "column": 7, "direction": "vertical" },
+      { "word": "LOGIN", "tip": "Entrada no sistema", "row": 9, "column": 5, "direction": "horizontal" }
     ]
   },
   {
     "id": 9,
-    "titulo": "Viagens e lugares",
-    "palavras": [
-      { "palavra": "AEROPORTO", "dica": "Lugar para embarcar aviões", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "MALA", "dica": "Usada para guardar roupas", "linha": 1, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "PASSAGEM", "dica": "Documento de transporte", "linha": 0, "coluna": 2, "direcao": "vertical" },
-      { "palavra": "HOTEL", "dica": "Onde os turistas se hospedam", "linha": 3, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "GUIA", "dica": "Pessoa que orienta turistas", "linha": 5, "coluna": 1, "direcao": "horizontal" },
-      { "palavra": "MAPA", "dica": "Mostra caminhos e lugares", "linha": 1, "coluna": 4, "direcao": "vertical" },
-      { "palavra": "TREM", "dica": "Transporte sobre trilhos", "linha": 6, "coluna": 2, "direcao": "horizontal" },
-      { "palavra": "PRAIA", "dica": "Destino com areia e mar", "linha": 4, "coluna": 5, "direcao": "vertical" },
-      { "palavra": "AVIÃO", "dica": "Meio de transporte aéreo", "linha": 7, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "FRONTEIRA", "dica": "Divisão entre países", "linha": 0, "coluna": 7, "direcao": "vertical" }
+    "title": "Viagens e lugares",
+    "words": [
+      { "word": "AEROPORTO", "tip": "Lugar para embarcar aviões", "row": 0, "column": 0, "direction": "horizontal" },
+      { "word": "MALA", "tip": "Usada para guardar roupas", "row": 1, "column": 0, "direction": "horizontal" },
+      { "word": "PASSAGEM", "tip": "Documento de transporte", "row": 0, "column": 2, "direction": "vertical" },
+      { "word": "HOTEL", "tip": "Onde os turistas se hospedam", "row": 3, "column": 0, "direction": "horizontal" },
+      { "word": "GUIA", "tip": "Pessoa que orienta turistas", "row": 5, "column": 1, "direction": "horizontal" },
+      { "word": "MAPA", "tip": "Mostra caminhos e lugares", "row": 1, "column": 4, "direction": "vertical" },
+      { "word": "TREM", "tip": "Transporte sobre trilhos", "row": 6, "column": 2, "direction": "horizontal" },
+      { "word": "PRAIA", "tip": "Destino com areia e mar", "row": 4, "column": 5, "direction": "vertical" },
+      { "word": "AVIÃO", "tip": "Meio de transporte aéreo", "row": 7, "column": 0, "direction": "horizontal" },
+      { "word": "FRONTEIRA", "tip": "Divisão entre países", "row": 0, "column": 7, "direction": "vertical" }
     ]
   },
   {
     "id": 10,
-    "titulo": "Animais Selvagens",
-    "palavras": [
-      { "palavra": "LEÃO", "dica": "Rei da selva", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "ELEFANTE", "dica": "Maior animal terrestre", "linha": 1, "coluna": 1, "direcao": "horizontal" },
-      { "palavra": "TIGRE", "dica": "Felino com listras", "linha": 0, "coluna": 2, "direcao": "vertical" },
-      { "palavra": "CROCODILO", "dica": "Réptil que vive em rios", "linha": 3, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "GIRAFA", "dica": "Pescoço mais comprido", "linha": 1, "coluna": 4, "direcao": "vertical" },
-      { "palavra": "HIENA", "dica": "Risada assustadora", "linha": 6, "coluna": 1, "direcao": "horizontal" },
-      { "palavra": "URSO", "dica": "Pode ser polar ou pardo", "linha": 2, "coluna": 6, "direcao": "vertical" },
-      { "palavra": "ZEBRA", "dica": "Animal listrado", "linha": 7, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "ANTÍLOPE", "dica": "Corre muito para fugir de predadores", "linha": 5, "coluna": 2, "direcao": "horizontal" },
-      { "palavra": "GORILA", "dica": "Grande primata", "linha": 3, "coluna": 8, "direcao": "vertical" }
+    "title": "Animais Selvagens",
+    "words": [
+      { "word": "LEÃO", "tip": "Rei da selva", "row": 0, "column": 0, "direction": "horizontal" },
+      { "word": "ELEFANTE", "tip": "Maior animal terrestre", "row": 1, "column": 1, "direction": "horizontal" },
+      { "word": "TIGRE", "tip": "Felino com listras", "row": 0, "column": 2, "direction": "vertical" },
+      { "word": "CROCODILO", "tip": "Réptil que vive em rios", "row": 3, "column": 0, "direction": "horizontal" },
+      { "word": "GIRAFA", "tip": "Pescoço mais comprido", "row": 1, "column": 4, "direction": "vertical" },
+      { "word": "HIENA", "tip": "Risada assustadora", "row": 6, "column": 1, "direction": "horizontal" },
+      { "word": "URSO", "tip": "Pode ser polar ou pardo", "row": 2, "column": 6, "direction": "vertical" },
+      { "word": "ZEBRA", "tip": "Animal listrado", "row": 7, "column": 0, "direction": "horizontal" },
+      { "word": "ANTÍLOPE", "tip": "Corre muito para fugir de predadores", "row": 5, "column": 2, "direction": "horizontal" },
+      { "word": "GORILA", "tip": "Grande primata", "row": 3, "column": 8, "direction": "vertical" }
     ]
   },
   {
     "id": 11,
-    "titulo": "Esportes ",
-    "palavras": [
-      { "palavra": "FUTEBOL", "dica": "Esporte mais popular do mundo", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "BASQUETE", "dica": "Jogado com uma cesta", "linha": 1, "coluna": 1, "direcao": "horizontal" },
-      { "palavra": "NATAÇÃO", "dica": "Feito em piscina", "linha": 0, "coluna": 3, "direcao": "vertical" },
-      { "palavra": "VÔLEI", "dica": "Jogado com rede no meio", "linha": 3, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "TÊNIS", "dica": "Usa raquete e bolinha", "linha": 2, "coluna": 5, "direcao": "vertical" },
-      { "palavra": "GOLFE", "dica": "Jogado em campos abertos", "linha": 4, "coluna": 2, "direcao": "horizontal" },
-      { "palavra": "ATLETISMO", "dica": "Corridas, saltos e lançamentos", "linha": 5, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "CANOAGEM", "dica": "Remando em águas", "linha": 1, "coluna": 7, "direcao": "vertical" },
-      { "palavra": "HANDEBOL", "dica": "Feito com as mãos e gol", "linha": 7, "coluna": 1, "direcao": "horizontal" },
-      { "palavra": "JUDÔ", "dica": "Arte marcial japonesa", "linha": 8, "coluna": 4, "direcao": "horizontal" }
+    "title": "Esportes ",
+    "words": [
+      { "word": "FUTEBOL", "tip": "Esporte mais popular do mundo", "row": 0, "column": 0, "direction": "horizontal" },
+      { "word": "BASQUETE", "tip": "Jogado com uma cesta", "row": 1, "column": 1, "direction": "horizontal" },
+      { "word": "NATAÇÃO", "tip": "Feito em piscina", "row": 0, "column": 3, "direction": "vertical" },
+      { "word": "VÔLEI", "tip": "Jogado com rede no meio", "row": 3, "column": 0, "direction": "horizontal" },
+      { "word": "TÊNIS", "tip": "Usa raquete e bolinha", "row": 2, "column": 5, "direction": "vertical" },
+      { "word": "GOLFE", "tip": "Jogado em campos abertos", "row": 4, "column": 2, "direction": "horizontal" },
+      { "word": "ATLETISMO", "tip": "Corridas, saltos e lançamentos", "row": 5, "column": 0, "direction": "horizontal" },
+      { "word": "CANOAGEM", "tip": "Remando em águas", "row": 1, "column": 7, "direction": "vertical" },
+      { "word": "HANDEBOL", "tip": "Feito com as mãos e gol", "row": 7, "column": 1, "direction": "horizontal" },
+      { "word": "JUDÔ", "tip": "Arte marcial japonesa", "row": 8, "column": 4, "direction": "horizontal" }
     ]
   },
   {
     "id": 12,
-    "titulo": "Universo Harry Potter",
-     "palavras": [
-      { "palavra": "HARRY", "dica": "O menino que sobreviveu", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "RON", "dica": "Melhor amigo ruivo", "linha": 1, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "HERMIONE", "dica": "Mais inteligente da turma", "linha": 2, "coluna": 1, "direcao": "horizontal" },
-      { "palavra": "VOLDEMORT", "dica": "Ele-que-não-deve-ser-nomeado", "linha": 0, "coluna": 2, "direcao": "vertical" },
-      { "palavra": "HOGWARTS", "dica": "Escola de magia", "linha": 4, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "DUMBLEDORE", "dica": "Diretor da escola", "linha": 1, "coluna": 4, "direcao": "vertical" },
-      { "palavra": "AZKABAN", "dica": "Prisão para bruxos", "linha": 6, "coluna": 2, "direcao": "horizontal" },
-      { "palavra": "DRACO", "dica": "Sonserino rival de Harry", "linha": 7, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "VARINHA", "dica": "Instrumento de feitiços", "linha": 3, "coluna": 6, "direcao": "vertical" },
-      { "palavra": "QUIDDITCH", "dica": "Esporte com vassouras", "linha": 8, "coluna": 1, "direcao": "horizontal" }
+    "title": "Universo Harry Potter",
+     "words": [
+      { "word": "HARRY", "tip": "O menino que sobreviveu", "row": 0, "column": 0, "direction": "horizontal" },
+      { "word": "RON", "tip": "Melhor amigo ruivo", "row": 1, "column": 0, "direction": "horizontal" },
+      { "word": "HERMIONE", "tip": "Mais inteligente da turma", "row": 2, "column": 1, "direction": "horizontal" },
+      { "word": "VOLDEMORT", "tip": "Ele-que-não-deve-ser-nomeado", "row": 0, "column": 2, "direction": "vertical" },
+      { "word": "HOGWARTS", "tip": "Escola de magia", "row": 4, "column": 0, "direction": "horizontal" },
+      { "word": "DUMBLEDORE", "tip": "Diretor da escola", "row": 1, "column": 4, "direction": "vertical" },
+      { "word": "AZKABAN", "tip": "Prisão para bruxos", "row": 6, "column": 2, "direction": "horizontal" },
+      { "word": "DRACO", "tip": "Sonserino rival de Harry", "row": 7, "column": 0, "direction": "horizontal" },
+      { "word": "VARINHA", "tip": "Instrumento de feitiços", "row": 3, "column": 6, "direction": "vertical" },
+      { "word": "QUIDDITCH", "tip": "Esporte com vassouras", "row": 8, "column": 1, "direction": "horizontal" }
     ]
   },
   {
     "id": 13,
-    "titulo": "Geografia - Países e Capitais",
-    "palavras": [
-      { "palavra": "BRASIL", "dica": "Maior país da América do Sul", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "TÓQUIO", "dica": "Capital do Japão", "linha": 1, "coluna": 1, "direcao": "horizontal" },
-      { "palavra": "CAIRO", "dica": "Capital do Egito", "linha": 0, "coluna": 3, "direcao": "vertical" },
-      { "palavra": "CANADÁ", "dica": "País ao norte dos EUA", "linha": 2, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "FRANÇA", "dica": "País da Torre Eiffel", "linha": 3, "coluna": 2, "direcao": "horizontal" },
-      { "palavra": "BERLIM", "dica": "Capital da Alemanha", "linha": 2, "coluna": 4, "direcao": "vertical" },
-      { "palavra": "CHINA", "dica": "País mais populoso", "linha": 5, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "ROMA", "dica": "Capital italiana", "linha": 4, "coluna": 3, "direcao": "vertical" },
-      { "palavra": "LONDRES", "dica": "Capital do Reino Unido", "linha": 6, "coluna": 1, "direcao": "horizontal" },
-      { "palavra": "MOSCOU", "dica": "Capital da Rússia", "linha": 7, "coluna": 4, "direcao": "vertical" }
+    "title": "Geografia - Países e Capitais",
+    "words": [
+      { "word": "BRASIL", "tip": "Maior país da América do Sul", "row": 0, "column": 0, "direction": "horizontal" },
+      { "word": "TÓQUIO", "tip": "Capital do Japão", "row": 1, "column": 1, "direction": "horizontal" },
+      { "word": "CAIRO", "tip": "Capital do Egito", "row": 0, "column": 3, "direction": "vertical" },
+      { "word": "CANADÁ", "tip": "País ao norte dos EUA", "row": 2, "column": 0, "direction": "horizontal" },
+      { "word": "FRANÇA", "tip": "País da Torre Eiffel", "row": 3, "column": 2, "direction": "horizontal" },
+      { "word": "BERLIM", "tip": "Capital da Alemanha", "row": 2, "column": 4, "direction": "vertical" },
+      { "word": "CHINA", "tip": "País mais populoso", "row": 5, "column": 0, "direction": "horizontal" },
+      { "word": "ROMA", "tip": "Capital italiana", "row": 4, "column": 3, "direction": "vertical" },
+      { "word": "LONDRES", "tip": "Capital do Reino Unido", "row": 6, "column": 1, "direction": "horizontal" },
+      { "word": "MOSCOU", "tip": "Capital da Rússia", "row": 7, "column": 4, "direction": "vertical" }
     ]
   },
   {
     "id": 14,
-    "titulo": "Aleatório",
-    "palavras": [
-      { "palavra": "PIZZA", "dica": "Comida italiana com queijo", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "NETFLIX", "dica": "Streaming popular", "linha": 1, "coluna": 1, "direcao": "horizontal" },
-      { "palavra": "LIVRO", "dica": "Objeto de leitura", "linha": 0, "coluna": 3, "direcao": "vertical" },
-      { "palavra": "CARRO", "dica": "Veículo de quatro rodas", "linha": 2, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "CÉU", "dica": "Fica acima de nossas cabeças", "linha": 3, "coluna": 5, "direcao": "vertical" },
-      { "palavra": "CACHORRO", "dica": "Melhor amigo do homem", "linha": 4, "coluna": 1, "direcao": "horizontal" },
-      { "palavra": "CANETA", "dica": "Usada para escrever", "linha": 5, "coluna": 3, "direcao": "vertical" },
-      { "palavra": "CHUVA", "dica": "Cai do céu", "linha": 7, "coluna": 2, "direcao": "horizontal" },
-      { "palavra": "FILME", "dica": "Assistido no cinema", "linha": 8, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "GATO", "dica": "Animal que mia", "linha": 3, "coluna": 7, "direcao": "vertical" }
+    "title": "Aleatório",
+    "words": [
+      { "word": "PIZZA", "tip": "Comida italiana com queijo", "row": 0, "column": 0, "direction": "horizontal" },
+      { "word": "NETFLIX", "tip": "Streaming popular", "row": 1, "column": 1, "direction": "horizontal" },
+      { "word": "LIVRO", "tip": "Objeto de leitura", "row": 0, "column": 3, "direction": "vertical" },
+      { "word": "CARRO", "tip": "Veículo de quatro rodas", "row": 2, "column": 0, "direction": "horizontal" },
+      { "word": "CÉU", "tip": "Fica acima de nossas cabeças", "row": 3, "column": 5, "direction": "vertical" },
+      { "word": "CACHORRO", "tip": "Melhor amigo do homem", "row": 4, "column": 1, "direction": "horizontal" },
+      { "word": "CANETA", "tip": "Usada para escrever", "row": 5, "column": 3, "direction": "vertical" },
+      { "word": "CHUVA", "tip": "Cai do céu", "row": 7, "column": 2, "direction": "horizontal" },
+      { "word": "FILME", "tip": "Assistido no cinema", "row": 8, "column": 0, "direction": "horizontal" },
+      { "word": "GATO", "tip": "Animal que mia", "row": 3, "column": 7, "direction": "vertical" }
     ]
   }
 ]
