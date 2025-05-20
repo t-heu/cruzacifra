@@ -384,7 +384,13 @@ export default function Page() {
               ))}
             </div>
 
-            {tabActive === "jogo" && <div className="flex justify-center">{renderGrid(grid, codeUser)}</div>}
+            {tabActive === "jogo" && (
+              <div className="overflow-x-auto w-full">
+                <div className="min-w-max mx-auto p-2">
+                  {renderGrid(grid, codeUser)}
+                </div>
+              </div>
+            )}
 
             {tabActive === "decodificador" && (
               <div>
