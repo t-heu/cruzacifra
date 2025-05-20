@@ -4,7 +4,7 @@
   "description": "Desafie sua mente diariamente! Decifre códigos para revelar palavras cruzadas com temas diferentes a cada dia. Troque letras embaralhadas, use dicas e lógica para completar o tabuleiro.",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#0f0f0c",
+  "background_color": "#ebc260",
   "theme_color": "#22c55e",
   "orientation": "portrait",
   "icons": [

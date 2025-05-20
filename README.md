@@ -28,4 +28,3 @@ Palavras Cruzadas Codificadas é um desafio diário de lógica onde você precis
 ![Screen 1](docs/preview.png "Screen 1")
 ![Screen 2](docs/image.png "Screen 2")
 ![Screen 3](docs/image1.png "Screen 3")
-

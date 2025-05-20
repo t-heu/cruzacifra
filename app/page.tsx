@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { Clock, Check, HelpCircle, RefreshCw, Trophy } from "lucide-react"
+import Link from "next/link"
 
 import {renderGrid} from "../components/grid";
 import {renderDecoder} from "../components/decoder";
@@ -17,10 +18,9 @@ const CHALLENGES = challenges
 // Alfabeto para codificação
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-export default function PalavrasCruzadasCodigo() {
+export default function Page() {
   const [currentChallenge, setCurrentChallenge] = useState<Challenge | null>(null)
   const [grid, setGrid] = useState<string[][]>([])
-  //const [gradeDecodificada, setGradeDecodificada] = useState<string[][]>([])
   const [code, setCode] = useState<Record<string, string>>({})
   const [codeUser, setCodeUser] = useState<Record<string, string>>({})
   const [tipsRevealed, setTipsRevealed] = useState<number[]>([])
@@ -29,9 +29,9 @@ export default function PalavrasCruzadasCodigo() {
   const [timeStart, setTimeStart] = useState(0)
   const [nextChallenge, setNextChallenge] = useState("")
   const [progress, setProgress] = useState(0)
-  //const [letrasUnicas, setLetrasUnicas] = useState<string[]>([])
   const [tabActive, setTabActive] = useState("jogo")
   const [showHowToPlay, setShowHowToPlay]= useState(false)
+  const [lettersRevealed, setLettersRevealed] = useState(0);
 
   // Inicializa o jogo
   useEffect(() => {
@@ -78,8 +78,6 @@ export default function PalavrasCruzadasCodigo() {
     const { grid: novaGrade, code: novoCodigo, letrasUnicas: novasLetrasUnicas } = gerarGradeECodigo(desafioHoje)
     setGrid(novaGrade)
     setCode(novoCodigo)
-    //setLetrasUnicas(novasLetrasUnicas)
-    atualizarGradeDecodificada(novaGrade, {})
 
     // Calcula quando será o próximo desafio
     const amanha = new Date()
@@ -102,8 +100,6 @@ export default function PalavrasCruzadasCodigo() {
   // Atualiza o progress quando o código do usuário muda
   useEffect(() => {
     if (!currentChallenge) return
-
-    atualizarGradeDecodificada(grid, codeUser)
 
     // Calcula o progress
     const totalLetras = Object.keys(code).length
@@ -216,18 +212,6 @@ export default function PalavrasCruzadasCodigo() {
     }
   }
 
-  // Atualiza a grade decodificada com base no código do usuário
-  const atualizarGradeDecodificada = (gradeCodificada: string[][], codeUser: Record<string, string>) => {
-    const novaGradeDecodificada = gradeCodificada.map((linha) =>
-      linha.map((letraCodificada) => {
-        if (!letraCodificada) return ""
-        return codeUser[letraCodificada] || ""
-      }),
-    )
-
-    //setGradeDecodificada(novaGradeDecodificada)
-  }
-
   // Embaralha um array
   const embaralharArray = <T,>(array: T[]): T[] => {
     const novoArray = [...array]
@@ -269,6 +253,7 @@ export default function PalavrasCruzadasCodigo() {
   // Revela uma letra do código
   const revelarLetra = () => {
     if (!currentChallenge) return
+    if (lettersRevealed >= 3) return
 
     // Encontra uma letra que ainda não foi revelada corretamente
     const letrasIncorretas = Object.keys(code).filter(
@@ -282,6 +267,7 @@ export default function PalavrasCruzadasCodigo() {
     const letraParaRevelar = letrasIncorretas[Math.floor(Math.random() * letrasIncorretas.length)]
     const novoCodigoUsuario = { ...codeUser, [letraParaRevelar]: code[letraParaRevelar] }
     setCodeUser(novoCodigoUsuario)
+    setLettersRevealed((prev) => prev + 1)
   }
 
   // Atualiza o código do usuário
@@ -306,138 +292,156 @@ export default function PalavrasCruzadasCodigo() {
   }
 
   return (
-    <div className="container max-w-2xl mx-auto px-4 py-8">
-      <div className="border rounded-lg shadow-sm p-6 mb-4">
-        <div className="mb-4 text-center">
-          <h1 className="text-xl font-semibold">Palavras Cruzadas Codificadas</h1>
-          <p className="text-gray-600">
-            Decifre o código para revelar as palavras cruzadas do dia: {currentChallenge?.titulo || ""}
-          </p>
-        </div>
-
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-sm border border-gray-300 rounded px-2 py-1 flex items-center gap-2">
-            <Clock className="h-4 w-4" />
-            Próximo desafio em: {nextChallenge}
-          </span>
-
-          {completed && (
-            <span className="text-sm border border-green-300 bg-green-50 rounded px-2 py-1 flex items-center gap-2">
-              <Trophy className="h-4 w-4 text-green-600" />
-              Pontuação: {score}
-            </span>
-          )}
-        </div>
-
-        {completed && (
-          <div className="flex items-start gap-2 bg-green-50 border border-green-200 p-3 rounded mb-4">
-            <Check className="h-4 w-4 text-green-600 mt-1" />
-            <div>
-              <p className="font-semibold">Parabéns!</p>
-              <p className="text-sm text-gray-700">Você completou o desafio de hoje!</p>
-            </div>
+    <div className="bg-[#ebc260] min-h-screen w-full">
+      <div className="container max-w-2xl mx-auto px-4 py-8">
+        <div className="border rounded-lg shadow-sm p-6 mb-4 bg-white">
+          <div className="mb-4 text-center">
+            <h1 className="text-xl font-semibold">Cruzacifra</h1>
+            <p className="text-gray-600">
+              Decifre o código para revelar as palavras cruzadas codificadas do dia: {currentChallenge?.titulo || ""}
+            </p>
           </div>
-        )}
 
-        <div className="mb-4">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm">Progresso: {progress}%</span>
-            {!completed && (
-              <button
-                onClick={() => setShowHowToPlay(true)}
-                className="text-sm px-2 py-1 border border-gray-300 rounded flex items-center gap-1 hover:bg-gray-100"
-              >
-                <HelpCircle className="h-4 w-4" />
-                Como jogar
-              </button>
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-sm border border-gray-300 rounded px-2 py-1 flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              Próximo desafio em: {nextChallenge}
+            </span>
+
+            {completed && (
+              <span className="text-sm border border-green-300 bg-green-50 rounded px-2 py-1 flex items-center gap-2">
+                <Trophy className="h-4 w-4 text-green-600" />
+                Pontuação: {score}
+              </span>
             )}
           </div>
 
-          <div className="w-full bg-gray-200 h-2 rounded">
-            <div className="bg-blue-500 h-2 rounded" style={{ width: `${progress}%` }} />
-          </div>
-        </div>
-
-        {/* Tabs */}
-        <div className="mb-4">
-          <div className="grid grid-cols-3 mb-6 border-b">
-            {["jogo", "decodificador", "dicas"].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setTabActive(tab)}
-                className={`py-2 text-sm border-b-2 ${
-                  tabActive === tab
-                    ? "border-blue-500 font-semibold"
-                    : "border-transparent text-gray-500 hover:text-black"
-                }`}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </button>
-            ))}
-          </div>
-
-          {tabActive === "jogo" && <div className="flex justify-center">{renderGrid(grid, codeUser)}</div>}
-
-          {tabActive === "decodificador" && (
-            <div>
-              {renderDecoder(currentChallenge, code, codeUser, atualizarCodigoUsuario, completed)}
-
-              {!completed && (
-                <div className="flex justify-center mt-4 gap-2">
-                  <button
-                    onClick={revelarLetra}
-                    className="text-sm px-3 py-1 border border-gray-300 rounded flex items-center gap-1 hover:bg-gray-100"
-                  >
-                    <HelpCircle className="h-4 w-4" />
-                    Revelar uma letra
-                  </button>
-
-                  <button
-                    onClick={() => setCodeUser({})}
-                    className="text-sm px-3 py-1 border border-gray-300 rounded flex items-center gap-1 hover:bg-gray-100"
-                  >
-                    <RefreshCw className="h-4 w-4" />
-                    Limpar
-                  </button>
-                </div>
-              )}
+          {completed && (
+            <div className="flex items-start gap-2 bg-green-50 border border-green-200 p-3 rounded mb-4">
+              <Check className="h-4 w-4 text-green-600 mt-1" />
+              <div>
+                <p className="font-semibold">Parabéns!</p>
+                <p className="text-sm text-gray-700">Você completou o desafio de hoje!</p>
+              </div>
             </div>
           )}
 
-          {tabActive === "dicas" && <div>{renderTips(currentChallenge, tipsRevealed, completed, revelarDica)}</div>}
-        </div>
+          <div className="mb-4">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm">Progresso: {progress}%</span>
+              {!completed && (
+                <button
+                  onClick={() => setShowHowToPlay(true)}
+                  className="text-sm px-2 py-1 border border-gray-300 rounded flex items-center gap-1 hover:bg-gray-100"
+                >
+                  <HelpCircle className="h-4 w-4" />
+                  Como jogar
+                </button>
+              )}
+            </div>
 
-        <div className="flex justify-between text-sm text-gray-500">
-          <div>{tipsRevealed.length} dicas reveladas</div>
-          <div>{new Date().toLocaleDateString("pt-BR")}</div>
-        </div>
-      </div>
-
-      {/* Modal "Como jogar" */}
-      {showHowToPlay && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
-            <h2 className="text-lg font-semibold mb-2">Como jogar</h2>
-            <p className="mb-2">
-              Neste jogo, você precisa decifrar um código para revelar as palavras cruzadas.
-            </p>
-            <ol className="list-decimal pl-5 space-y-1 mb-4 text-sm text-gray-700">
-              <li>Cada letra foi substituída por outra letra do alfabeto</li>
-              <li>Use as dicas para tentar descobrir quais palavras estão escondidas</li>
-              <li>Digite suas suposições no decodificador abaixo da grade</li>
-              <li>Você pode revelar dicas ou letras se precisar de ajuda</li>
-            </ol>
-            <div className="text-right">
-              <button
-                onClick={() => setShowHowToPlay(false)}
-                className="text-sm px-3 py-1 border border-gray-300 rounded hover:bg-gray-100"
-              >
-                Fechar
-              </button>
+            <div className="w-full bg-gray-200 h-2 rounded">
+              <div className="bg-blue-500 h-2 rounded" style={{ width: `${progress}%` }} />
             </div>
           </div>
+
+          {/* Tabs */}
+          <div className="mb-4">
+            <div className="grid grid-cols-3 mb-6 border-b">
+              {["jogo", "decodificador", "dicas"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setTabActive(tab)}
+                  className={`py-2 text-sm border-b-2 ${
+                    tabActive === tab
+                      ? "border-blue-500 font-semibold"
+                      : "border-transparent text-gray-500 hover:text-black"
+                  }`}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
+
+            {tabActive === "jogo" && <div className="flex justify-center">{renderGrid(grid, codeUser)}</div>}
+
+            {tabActive === "decodificador" && (
+              <div>
+                {renderDecoder(currentChallenge, code, codeUser, atualizarCodigoUsuario, completed)}
+
+                {!completed && (
+                  <div className="flex justify-center mt-4 gap-2">      
+                    {lettersRevealed === 3 ? (
+                      <p className="text-sm flex items-center gap-1">
+                        Letras reveladas
+                      </p>
+                    ):(
+                      <button
+                        onClick={revelarLetra}
+                        className="text-sm px-3 py-1 border border-gray-300 rounded flex items-center gap-1 hover:bg-gray-100"
+                      >
+                        <HelpCircle className="h-4 w-4" />
+                        Revelar uma letra
+                      </button>
+                    )}
+
+                    <button
+                      onClick={() => setCodeUser({})}
+                      className="text-sm px-3 py-1 border border-gray-300 rounded flex items-center gap-1 hover:bg-gray-100"
+                    >
+                      <RefreshCw className="h-4 w-4" />
+                      Limpar
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {tabActive === "dicas" && <div>{renderTips(currentChallenge, tipsRevealed, completed, revelarDica)}</div>}
+          </div>
+
+          <div className="flex justify-between text-sm text-gray-500">
+            <div>{tipsRevealed.length} dicas reveladas</div>
+            <div>{new Date().toLocaleDateString("pt-BR")}</div>
+          </div>
         </div>
-      )}
+
+        {/* Modal "Como jogar" */}
+        {showHowToPlay && (
+          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
+              <h2 className="text-lg font-semibold mb-2">Como jogar</h2>
+              <p className="mb-2">
+                Neste jogo, você precisa decifrar um código para revelar as palavras cruzadas.
+              </p>
+              <ol className="list-decimal pl-5 space-y-1 mb-4 text-sm text-gray-700">
+                <li>Cada letra foi substituída por outra letra do alfabeto</li>
+                <li>Use as dicas para tentar descobrir quais palavras estão escondidas</li>
+                <li>Digite suas suposições no decodificador abaixo da grade</li>
+                <li>Você pode revelar dicas ou letras se precisar de ajuda</li>
+              </ol>
+              <div className="text-right">
+                <button
+                  onClick={() => setShowHowToPlay(false)}
+                  className="text-sm px-3 py-1 border border-gray-300 rounded hover:bg-gray-100"
+                >
+                  Fechar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <footer className="max-w-2xl mx-auto py-4 text-center text-sm text-gray-600">
+        <p className="mb-2 font-semibold text-gray-800">Cruzacifra</p>
+        <p className="mb-1">Created by t-heu</p>
+        <div className="flex justify-center gap-6 text-gray-600">
+          <Link href="/changelog" className="hover:underline">Changelog</Link>
+          <Link href="/about" className="hover:underline">Sobre</Link>
+          <Link href="/contact" className="hover:underline">Contato</Link>
+        </div>
+      </footer>
     </div>
   )
 }

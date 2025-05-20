@@ -3,11 +3,11 @@
     "id": 1,
     "titulo": "Animais",
     "palavras": [
-      { "palavra": "GATO", "dica": "Animal doméstico que mia", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "CACHORRO", "dica": "Melhor amigo do homem", "linha": 2, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "GIRAFA", "dica": "Animal de pescoço longo", "linha": 0, "coluna": 0, "direcao": "vertical" },
-      { "palavra": "COBRA", "dica": "Réptil sem pernas", "linha": 0, "coluna": 3, "direcao": "vertical" },
-      { "palavra": "TIGRE", "dica": "Felino com listras", "linha": 4, "coluna": 1, "direcao": "horizontal" }
+      { "palavra": "LOBO", "dica": "Animal que uiva", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "TATU", "dica": "Animal com casco duro", "linha": 2, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "ONÇA", "dica": "Felino que vive nas matas", "linha": 0, "coluna": 0, "direcao": "vertical" },
+      { "palavra": "URSO", "dica": "Grande animal peludo", "linha": 0, "coluna": 3, "direcao": "vertical" },
+      { "palavra": "CORUJA", "dica": "Animal noturno de olhos grandes", "linha": 0, "coluna": 1, "direcao": "vertical" }
     ]
   },
   {
@@ -25,11 +25,182 @@
     "id": 3,
     "titulo": "Países",
     "palavras": [
-      { "palavra": "BRASIL", "dica": "País do samba e futebol", "linha": 0, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "JAPAO", "dica": "País do sol nascente", "linha": 2, "coluna": 0, "direcao": "horizontal" },
-      { "palavra": "CANADA", "dica": "País da folha de bordo", "linha": 0, "coluna": 0, "direcao": "vertical" },
-      { "palavra": "ITALIA", "dica": "País da pizza", "linha": 0, "coluna": 5, "direcao": "vertical" },
-      { "palavra": "EGITO", "dica": "País das pirâmides", "linha": 4, "coluna": 2, "direcao": "horizontal" }
+      { "palavra": "BRASIL", "dica": "País da América do Sul", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "CANADÁ", "dica": "País frio da América do Norte", "linha": 2, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "CHINA", "dica": "País mais populoso do mundo", "linha": 0, "coluna": 0, "direcao": "vertical" },
+      { "palavra": "ÍNDIA", "dica": "País com muitos festivais", "linha": 0, "coluna": 3, "direcao": "vertical" },
+      { "palavra": "EGITO", "dica": "País das pirâmides", "linha": 0, "coluna": 5, "direcao": "vertical" }
+    ]
+  },
+  {
+    "id": 4,
+    "titulo": "Objetos mágicos",
+    "palavras": [
+      { "palavra": "VARINHA", "dica": "Objeto usado por bruxos", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "GRIMORIO", "dica": "Livro de feitiços", "linha": 2, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "ANEL", "dica": "Pequeno objeto usado no dedo", "linha": 0, "coluna": 0, "direcao": "vertical" },
+      { "palavra": "POÇÃO", "dica": "Líquido mágico em frasco", "linha": 0, "coluna": 3, "direcao": "vertical" },
+      { "palavra": "CAPUZ", "dica": "Roupa com capuz usada por magos", "linha": 0, "coluna": 6, "direcao": "vertical" }
+    ]
+  },
+  {
+    "id": 5,
+    "titulo": "Partes do corpo humano",
+    "palavras": [
+      { "palavra": "CORAÇÃO", "dica": "Órgão que bombeia sangue", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "PULMÃO", "dica": "Órgão da respiração", "linha": 1, "coluna": 2, "direcao": "vertical" },
+      { "palavra": "OSSOS", "dica": "Formam o esqueleto", "linha": 3, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "RIM", "dica": "Órgão que filtra o sangue", "linha": 0, "coluna": 5, "direcao": "vertical" },
+      { "palavra": "CÉREBRO", "dica": "Centro de controle do corpo", "linha": 5, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "FÍGADO", "dica": "Órgão que ajuda na digestão", "linha": 1, "coluna": 7, "direcao": "vertical" },
+      { "palavra": "LÍNGUA", "dica": "Músculo usado para falar e saborear", "linha": 2, "coluna": 1, "direcao": "horizontal" },
+      { "palavra": "VEIAS", "dica": "Canais por onde passa o sangue", "linha": 7, "coluna": 2, "direcao": "horizontal" },
+      { "palavra": "OLHO", "dica": "Órgão da visão", "linha": 3, "coluna": 5, "direcao": "vertical" },
+      { "palavra": "PELE", "dica": "Maior órgão do corpo humano", "linha": 6, "coluna": 4, "direcao": "horizontal" }
+    ]
+  },
+  {
+    "id": 6,
+    "titulo": "Elementos químicos",
+    "palavras": [
+      { "palavra": "HIDROGÊNIO", "dica": "Elemento mais leve", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "OXIGÊNIO", "dica": "Essencial para respiração", "linha": 2, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "FERRO", "dica": "Símbolo Fe", "linha": 0, "coluna": 3, "direcao": "vertical" },
+      { "palavra": "OURO", "dica": "Metal precioso de símbolo Au", "linha": 4, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "CÁLCIO", "dica": "Fortalece ossos", "linha": 1, "coluna": 5, "direcao": "vertical" },
+      { "palavra": "SÓDIO", "dica": "Presente no sal de cozinha", "linha": 6, "coluna": 1, "direcao": "horizontal" },
+      { "palavra": "PRATA", "dica": "Metal de símbolo Ag", "linha": 3, "coluna": 6, "direcao": "vertical" },
+      { "palavra": "ZINCO", "dica": "Importante para o sistema imunológico", "linha": 7, "coluna": 2, "direcao": "horizontal" },
+      { "palavra": "LÍTIO", "dica": "Usado em baterias", "linha": 5, "coluna": 0, "direcao": "vertical" },
+      { "palavra": "URÂNIO", "dica": "Usado em energia nuclear", "linha": 8, "coluna": 3, "direcao": "horizontal" }
+    ]
+  },
+  {
+    "id": 7,
+    "titulo": "Mitologia grega",
+    "palavras": [
+      { "palavra": "ZEUS", "dica": "Deus do trovão", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "HERA", "dica": "Deusa do casamento", "linha": 1, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "HADES", "dica": "Deus do submundo", "linha": 0, "coluna": 2, "direcao": "vertical" },
+      { "palavra": "ARES", "dica": "Deus da guerra", "linha": 3, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "POSEIDON", "dica": "Deus dos mares", "linha": 0, "coluna": 5, "direcao": "vertical" },
+      { "palavra": "AFRODITE", "dica": "Deusa da beleza", "linha": 5, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "APOLO", "dica": "Deus do sol e da música", "linha": 2, "coluna": 6, "direcao": "vertical" },
+      { "palavra": "ATENA", "dica": "Deusa da sabedoria", "linha": 7, "coluna": 2, "direcao": "horizontal" },
+      { "palavra": "DEMÉTER", "dica": "Deusa da agricultura", "linha": 3, "coluna": 8, "direcao": "vertical" },
+      { "palavra": "DIONISO", "dica": "Deus do vinho e festas", "linha": 9, "coluna": 1, "direcao": "horizontal" }
+    ]
+  },
+  {
+    "id": 8,
+    "titulo": "Tecnologia e informática",
+    "palavras": [
+      { "palavra": "ALGORITMO", "dica": "Sequência de instruções", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "PROCESSADOR", "dica": "Cérebro do computador", "linha": 1, "coluna": 4, "direcao": "vertical" },
+      { "palavra": "FIREWALL", "dica": "Proteção contra invasões", "linha": 2, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "SISTEMA", "dica": "Conjunto organizado de elementos", "linha": 0, "coluna": 2, "direcao": "vertical" },
+      { "palavra": "BACKUP", "dica": "Cópia de segurança", "linha": 4, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "SENSOR", "dica": "Detecta alterações físicas", "linha": 6, "coluna": 1, "direcao": "horizontal" },
+      { "palavra": "PYTHON", "dica": "Linguagem de programação", "linha": 3, "coluna": 6, "direcao": "vertical" },
+      { "palavra": "PIXEL", "dica": "Unidade mínima de imagem", "linha": 8, "coluna": 2, "direcao": "horizontal" },
+      { "palavra": "NAVEGADOR", "dica": "Acessa páginas web", "linha": 0, "coluna": 7, "direcao": "vertical" },
+      { "palavra": "LOGIN", "dica": "Entrada no sistema", "linha": 9, "coluna": 5, "direcao": "horizontal" }
+    ]
+  },
+  {
+    "id": 9,
+    "titulo": "Viagens e lugares",
+    "palavras": [
+      { "palavra": "AEROPORTO", "dica": "Lugar para embarcar aviões", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "MALA", "dica": "Usada para guardar roupas", "linha": 1, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "PASSAGEM", "dica": "Documento de transporte", "linha": 0, "coluna": 2, "direcao": "vertical" },
+      { "palavra": "HOTEL", "dica": "Onde os turistas se hospedam", "linha": 3, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "GUIA", "dica": "Pessoa que orienta turistas", "linha": 5, "coluna": 1, "direcao": "horizontal" },
+      { "palavra": "MAPA", "dica": "Mostra caminhos e lugares", "linha": 1, "coluna": 4, "direcao": "vertical" },
+      { "palavra": "TREM", "dica": "Transporte sobre trilhos", "linha": 6, "coluna": 2, "direcao": "horizontal" },
+      { "palavra": "PRAIA", "dica": "Destino com areia e mar", "linha": 4, "coluna": 5, "direcao": "vertical" },
+      { "palavra": "AVIÃO", "dica": "Meio de transporte aéreo", "linha": 7, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "FRONTEIRA", "dica": "Divisão entre países", "linha": 0, "coluna": 7, "direcao": "vertical" }
+    ]
+  },
+  {
+    "id": 10,
+    "titulo": "Animais Selvagens",
+    "palavras": [
+      { "palavra": "LEÃO", "dica": "Rei da selva", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "ELEFANTE", "dica": "Maior animal terrestre", "linha": 1, "coluna": 1, "direcao": "horizontal" },
+      { "palavra": "TIGRE", "dica": "Felino com listras", "linha": 0, "coluna": 2, "direcao": "vertical" },
+      { "palavra": "CROCODILO", "dica": "Réptil que vive em rios", "linha": 3, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "GIRAFA", "dica": "Pescoço mais comprido", "linha": 1, "coluna": 4, "direcao": "vertical" },
+      { "palavra": "HIENA", "dica": "Risada assustadora", "linha": 6, "coluna": 1, "direcao": "horizontal" },
+      { "palavra": "URSO", "dica": "Pode ser polar ou pardo", "linha": 2, "coluna": 6, "direcao": "vertical" },
+      { "palavra": "ZEBRA", "dica": "Animal listrado", "linha": 7, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "ANTÍLOPE", "dica": "Corre muito para fugir de predadores", "linha": 5, "coluna": 2, "direcao": "horizontal" },
+      { "palavra": "GORILA", "dica": "Grande primata", "linha": 3, "coluna": 8, "direcao": "vertical" }
+    ]
+  },
+  {
+    "id": 11,
+    "titulo": "Esportes ",
+    "palavras": [
+      { "palavra": "FUTEBOL", "dica": "Esporte mais popular do mundo", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "BASQUETE", "dica": "Jogado com uma cesta", "linha": 1, "coluna": 1, "direcao": "horizontal" },
+      { "palavra": "NATAÇÃO", "dica": "Feito em piscina", "linha": 0, "coluna": 3, "direcao": "vertical" },
+      { "palavra": "VÔLEI", "dica": "Jogado com rede no meio", "linha": 3, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "TÊNIS", "dica": "Usa raquete e bolinha", "linha": 2, "coluna": 5, "direcao": "vertical" },
+      { "palavra": "GOLFE", "dica": "Jogado em campos abertos", "linha": 4, "coluna": 2, "direcao": "horizontal" },
+      { "palavra": "ATLETISMO", "dica": "Corridas, saltos e lançamentos", "linha": 5, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "CANOAGEM", "dica": "Remando em águas", "linha": 1, "coluna": 7, "direcao": "vertical" },
+      { "palavra": "HANDEBOL", "dica": "Feito com as mãos e gol", "linha": 7, "coluna": 1, "direcao": "horizontal" },
+      { "palavra": "JUDÔ", "dica": "Arte marcial japonesa", "linha": 8, "coluna": 4, "direcao": "horizontal" }
+    ]
+  },
+  {
+    "id": 12,
+    "titulo": "Universo Harry Potter",
+     "palavras": [
+      { "palavra": "HARRY", "dica": "O menino que sobreviveu", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "RON", "dica": "Melhor amigo ruivo", "linha": 1, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "HERMIONE", "dica": "Mais inteligente da turma", "linha": 2, "coluna": 1, "direcao": "horizontal" },
+      { "palavra": "VOLDEMORT", "dica": "Ele-que-não-deve-ser-nomeado", "linha": 0, "coluna": 2, "direcao": "vertical" },
+      { "palavra": "HOGWARTS", "dica": "Escola de magia", "linha": 4, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "DUMBLEDORE", "dica": "Diretor da escola", "linha": 1, "coluna": 4, "direcao": "vertical" },
+      { "palavra": "AZKABAN", "dica": "Prisão para bruxos", "linha": 6, "coluna": 2, "direcao": "horizontal" },
+      { "palavra": "DRACO", "dica": "Sonserino rival de Harry", "linha": 7, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "VARINHA", "dica": "Instrumento de feitiços", "linha": 3, "coluna": 6, "direcao": "vertical" },
+      { "palavra": "QUIDDITCH", "dica": "Esporte com vassouras", "linha": 8, "coluna": 1, "direcao": "horizontal" }
+    ]
+  },
+  {
+    "id": 13,
+    "titulo": "Geografia - Países e Capitais",
+    "palavras": [
+      { "palavra": "BRASIL", "dica": "Maior país da América do Sul", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "TÓQUIO", "dica": "Capital do Japão", "linha": 1, "coluna": 1, "direcao": "horizontal" },
+      { "palavra": "CAIRO", "dica": "Capital do Egito", "linha": 0, "coluna": 3, "direcao": "vertical" },
+      { "palavra": "CANADÁ", "dica": "País ao norte dos EUA", "linha": 2, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "FRANÇA", "dica": "País da Torre Eiffel", "linha": 3, "coluna": 2, "direcao": "horizontal" },
+      { "palavra": "BERLIM", "dica": "Capital da Alemanha", "linha": 2, "coluna": 4, "direcao": "vertical" },
+      { "palavra": "CHINA", "dica": "País mais populoso", "linha": 5, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "ROMA", "dica": "Capital italiana", "linha": 4, "coluna": 3, "direcao": "vertical" },
+      { "palavra": "LONDRES", "dica": "Capital do Reino Unido", "linha": 6, "coluna": 1, "direcao": "horizontal" },
+      { "palavra": "MOSCOU", "dica": "Capital da Rússia", "linha": 7, "coluna": 4, "direcao": "vertical" }
+    ]
+  },
+  {
+    "id": 14,
+    "titulo": "Aleatório",
+    "palavras": [
+      { "palavra": "PIZZA", "dica": "Comida italiana com queijo", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "NETFLIX", "dica": "Streaming popular", "linha": 1, "coluna": 1, "direcao": "horizontal" },
+      { "palavra": "LIVRO", "dica": "Objeto de leitura", "linha": 0, "coluna": 3, "direcao": "vertical" },
+      { "palavra": "CARRO", "dica": "Veículo de quatro rodas", "linha": 2, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "CÉU", "dica": "Fica acima de nossas cabeças", "linha": 3, "coluna": 5, "direcao": "vertical" },
+      { "palavra": "CACHORRO", "dica": "Melhor amigo do homem", "linha": 4, "coluna": 1, "direcao": "horizontal" },
+      { "palavra": "CANETA", "dica": "Usada para escrever", "linha": 5, "coluna": 3, "direcao": "vertical" },
+      { "palavra": "CHUVA", "dica": "Cai do céu", "linha": 7, "coluna": 2, "direcao": "horizontal" },
+      { "palavra": "FILME", "dica": "Assistido no cinema", "linha": 8, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "GATO", "dica": "Animal que mia", "linha": 3, "coluna": 7, "direcao": "vertical" }
     ]
   }
 ]
