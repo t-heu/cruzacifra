@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "titulo": "Animais",
+    "palavras": [
+      { "palavra": "GATO", "dica": "Animal doméstico que mia", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "CACHORRO", "dica": "Melhor amigo do homem", "linha": 2, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "GIRAFA", "dica": "Animal de pescoço longo", "linha": 0, "coluna": 0, "direcao": "vertical" },
+      { "palavra": "COBRA", "dica": "Réptil sem pernas", "linha": 0, "coluna": 3, "direcao": "vertical" },
+      { "palavra": "TIGRE", "dica": "Felino com listras", "linha": 4, "coluna": 1, "direcao": "horizontal" }
+    ]
+  },
+  {
+    "id": 2,
+    "titulo": "Frutas",
+    "palavras": [
+      { "palavra": "LIMA", "dica": "Fruta cítrica pequena", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "ROMÃ", "dica": "Fruta vermelha com sementes", "linha": 2, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "LARANJA", "dica": "Fruta cítrica laranja", "linha": 0, "coluna": 0, "direcao": "vertical" },
+      { "palavra": "AMORA", "dica": "Fruta preta roxa pequena", "linha": 0, "coluna": 5, "direcao": "vertical" },
+      { "palavra": "UVA", "dica": "Fruta usada para fazer vinho", "linha": 4, "coluna": 3, "direcao": "horizontal" }
+    ]
+  },
+  {
+    "id": 3,
+    "titulo": "Países",
+    "palavras": [
+      { "palavra": "BRASIL", "dica": "País do samba e futebol", "linha": 0, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "JAPAO", "dica": "País do sol nascente", "linha": 2, "coluna": 0, "direcao": "horizontal" },
+      { "palavra": "CANADA", "dica": "País da folha de bordo", "linha": 0, "coluna": 0, "direcao": "vertical" },
+      { "palavra": "ITALIA", "dica": "País da pizza", "linha": 0, "coluna": 5, "direcao": "vertical" },
+      { "palavra": "EGITO", "dica": "País das pirâmides", "linha": 4, "coluna": 2, "direcao": "horizontal" }
+    ]
+  }
+]
