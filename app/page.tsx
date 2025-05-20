@@ -7,6 +7,7 @@ import Link from "next/link"
 import {renderGrid} from "../components/grid";
 import {renderDecoder} from "../components/decoder";
 import {renderTips} from "../components/tips";
+import AdBanner from "../components/AdBanner";
 
 import {Challenge} from "./interfaces";
 
@@ -293,6 +294,11 @@ export default function Page() {
 
   return (
     <div className="bg-[#ebc260] min-h-screen w-full">
+      <AdBanner
+        dataAdFormat="auto"
+        dataFullWidthResponsive={true}
+        dataAdSlot="9380851329"
+      />
       <div className="container max-w-2xl mx-auto px-4 py-8">
         <div className="border rounded-lg shadow-sm p-6 mb-4 bg-white">
           <div className="mb-4 text-center">
