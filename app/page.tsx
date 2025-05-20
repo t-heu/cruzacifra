@@ -48,10 +48,10 @@ export default function Page() {
     const diaDoAno = Math.floor(
       (hoje.getTime() - new Date(hoje.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24)
     );
-    const shouldUseRandom = Math.random() < 0.5;
+    const shouldUseRandom = diaDoAno % 2 === 0;
 
     const desafioHoje: Challenge = shouldUseRandom
-      ? generateRandomChallenge()
+      ? generateRandomChallenge(diaDoAno)
       : CHALLENGES[diaDoAno % CHALLENGES.length];
 
     // Verifica se já jogou hoje
