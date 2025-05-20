@@ -9,12 +9,20 @@ import {renderDecoder} from "../components/decoder";
 import {renderTips} from "../components/tips";
 import AdBanner from "../components/AdBanner";
 
+import {generateWordCrosswords} from "../utils/generateWordCrosswords";
+import {generateRandomChallenge} from "../utils/generateRandomChallenge ";
+
 import {Challenge} from "./interfaces";
 
-import challenges from "../challenges.json";
+import challengesRaw from "../challenges.json";
 
-// Desafios diários
-const CHALLENGES = challenges
+const CHALLENGES: Challenge[] = challengesRaw.map(challenge => ({
+  ...challenge,
+  palavras: challenge.palavras.map(p => ({
+    ...p,
+    direcao: (p.direcao === "horizontal" || p.direcao === "vertical") ? p.direcao : "horizontal",
+  })),
+}));
 
 // Alfabeto para codificação
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -40,7 +48,11 @@ export default function Page() {
     const diaDoAno = Math.floor(
       (hoje.getTime() - new Date(hoje.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24)
     );
-    const desafioHoje = CHALLENGES[diaDoAno % CHALLENGES.length] as Challenge;
+    const shouldUseRandom = Math.random() < 0.5;
+
+    const desafioHoje: Challenge = shouldUseRandom
+      ? generateRandomChallenge()
+      : CHALLENGES[diaDoAno % CHALLENGES.length];
 
     // Verifica se já jogou hoje
     const ultimoJogo = localStorage.getItem("ultimoJogoCruzadas")
@@ -145,10 +157,13 @@ export default function Page() {
   }, [codeUser, currentChallenge, grid, code, completed, tipsRevealed, timeStart])
 
   // Gera a grade e o código para o desafio
-  const gerarGradeECodigo = (desafio: (typeof CHALLENGES)[0]) => {
+  const gerarGradeECodigo = (desafio: Challenge) => {
     // Encontra o tamanho necessário para a grade
     let maxLinha = 0
     let maxColuna = 0
+
+    const newWords = generateWordCrosswords(desafio.palavras)
+    desafio.palavras = newWords;
 
     desafio.palavras.forEach((palavra) => {
       const comprimento = palavra.palavra.length
