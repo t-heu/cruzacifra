@@ -1,13 +1,15 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Clock, Check, HelpCircle, RefreshCw, Trophy } from "lucide-react"
-import Link from "next/link"
+import { Clock, HelpCircle, RefreshCw, Trophy } from "lucide-react"
 
 import {renderGrid} from "../components/grid";
 import {renderDecoder} from "../components/decoder";
 import {renderTips} from "../components/tips";
 import AdBanner from "../components/AdBanner";
+import Footer from "../components/footer";
+import HowToPlayModal from "../components/how-to-play-modal";
+import VictoryOrLose from "../components/victory-or-lose";
 
 import {generateWordCrosswords} from "../utils/generateWordCrosswords";
 import {generateRandomChallenge} from "../utils/generateRandomChallenge ";
@@ -34,6 +36,7 @@ export default function Page() {
   const [codeUser, setCodeUser] = useState<Record<string, string>>({})
   const [tipsRevealed, setTipsRevealed] = useState<number[]>([])
   const [completed, setCompleted] = useState(false)
+  const [victoryStatus, setVictoryStatus] = useState<'win' | 'lose' | null>(null)
   const [score, setScore] = useState(0)
   const [timeStart, setTimeStart] = useState(0)
   const [nextChallenge, setNextChallenge] = useState("")
@@ -57,14 +60,18 @@ export default function Page() {
     // Verifica se já jogou hoje
     const ultimoJogo = localStorage.getItem("ultimoJogoCruzadas")
     const dataHoje = hoje.toLocaleDateString("pt-BR")
+    let codeRestored: Record<string, string> = {}
 
     if (ultimoJogo === dataHoje) {
       // Recupera o estado do jogo de hoje
-      const estadoSalvo = JSON.parse(localStorage.getItem("estadoJogoCruzadas") || "{}")
-      setCodeUser(estadoSalvo.codeUser || {})
-      setTipsRevealed(estadoSalvo.tipsRevealed || [])
-      setCompleted(estadoSalvo.completed || false)
-      setScore(estadoSalvo.score || 0)
+      const statusSaved = JSON.parse(localStorage.getItem("estadoJogoCruzadas") || "{}")
+      setCodeUser(statusSaved.codeUser || {})
+      setTipsRevealed(statusSaved.tipsRevealed || [])
+      setCompleted(statusSaved.completed || false)
+      setScore(statusSaved.score || 0)
+      setCode(statusSaved.code || {});
+      if (statusSaved.completed) setVictoryStatus(statusSaved.results[statusSaved.results.length - 1].status)
+      codeRestored = statusSaved.code || {}
     } else {
       // Novo jogo
       localStorage.setItem("ultimoJogoCruzadas", dataHoje)
@@ -72,6 +79,7 @@ export default function Page() {
       setTipsRevealed([])
       setCompleted(false)
       setScore(0)
+      setCode({});
       setTimeStart(Date.now())
 
       // Salva o estado inicial
@@ -79,16 +87,18 @@ export default function Page() {
         "estadoJogoCruzadas",
         JSON.stringify({
           codeUser: {},
+          code: {},
+          results: [],
           tipsRevealed: [],
           completed: false,
           score: 0,
         }),
-      )
+      );
     }
 
+    const { grid: novaGrade, code: novoCodigo } = gerarGradeECodigo(desafioHoje, codeRestored)
     // Configura o desafio
     setCurrentChallenge(desafioHoje)
-    const { grid: novaGrade, code: novoCodigo } = gerarGradeECodigo(desafioHoje)
     setGrid(novaGrade)
     setCode(novoCodigo)
 
@@ -124,40 +134,74 @@ export default function Page() {
     setProgress(novoProgresso)
 
     // Verifica se completou o desafio
-    if (novoProgresso === 100 && !completed) {
+    const totalPreenchidos = Object.keys(codeUser).length
+    const todosPreenchidos = totalPreenchidos === totalLetras
+    const todasCorretas = novoProgresso === 100
+
+    if (todasCorretas && !completed) {
+      // Vitória
+      setVictoryStatus('win')
       setCompleted(true)
       const tempoGasto = Math.floor((Date.now() - timeStart) / 1000)
       const pontuacaoBase = 1000
       const penalidade = (tempoGasto / 60) * 50 + tipsRevealed.length * 100
       const novaPontuacao = Math.max(100, Math.floor(pontuacaoBase - penalidade))
       setScore(novaPontuacao)
-
-      // Salva o estado
-      localStorage.setItem(
-        "estadoJogoCruzadas",
-        JSON.stringify({
-          codeUser,
-          tipsRevealed,
-          completed: true,
-          score: novaPontuacao,
-        }),
-      )
+      saveGameState(true, novaPontuacao, 'win')
+    } else if (todosPreenchidos && !todasCorretas && !completed) {
+      // Derrota
+      setVictoryStatus('lose')
+      setCompleted(true)
+      setScore(0)
+      saveGameState(false, 0, 'lose')
     } else if (!completed) {
-      // Salva o estado
-      localStorage.setItem(
-        "estadoJogoCruzadas",
-        JSON.stringify({
-          codeUser,
-          tipsRevealed,
-          completed: false,
-          score: 0,
-        }),
-      )
+      saveGameState(false, 0)
     }
   }, [codeUser, currentChallenge, grid, code, completed, tipsRevealed, timeStart])
 
+  function saveGameState(completedGame: boolean, scoreGame: number, status?: string) {
+    const now = new Date();
+    const todayStr = now.toLocaleDateString("pt-BR");
+
+    const savedData = JSON.parse(localStorage.getItem("estadoJogoCruzadas") || "{}");
+    const previousHistory = savedData.results ?? [];
+
+    // Verifica se já existe resultado 'win' ou 'lose' salvo hoje
+    const alreadySavedToday = previousHistory.some((entry: any) => {
+      const entryDate = new Date(entry.date).toLocaleDateString("pt-BR");
+      return entryDate === todayStr && (entry.status === 'win' || entry.status === 'lose');
+    });
+
+    const isWinOrLose = status === 'win' || status === 'lose';
+
+    const newData: any = {
+      ...savedData,
+      codeUser,
+      code,
+      tipsRevealed,
+      completed: completedGame,
+      score: scoreGame,
+      results: previousHistory, // padrão: não altera histórico
+    };
+
+    // Só adiciona se for win/lose e ainda não tiver salvo hoje
+    if (isWinOrLose && !alreadySavedToday) {
+      const newEntry = {
+        score: scoreGame,
+        date: now.toISOString(),
+        completed: completedGame,
+        status,
+      };
+
+      newData.results = [...previousHistory, newEntry];
+    }
+
+    // Salva sempre, mas só adiciona ao histórico uma vez por dia
+    localStorage.setItem("estadoJogoCruzadas", JSON.stringify(newData));
+  }
+
   // Gera a grade e o código para o desafio
-  const gerarGradeECodigo = (desafio: Challenge) => {
+  const gerarGradeECodigo = (desafio: Challenge, codigoExistente?: Record<string, string>) => {
     // Encontra o tamanho necessário para a grade
     let maxLinha = 0
     let maxColuna = 0
@@ -197,21 +241,24 @@ export default function Page() {
     const letrasUnicasSet = new Set<string>()
     novaGrade.forEach((row) => {
       row.forEach((letra) => {
-        if (letra) {
-          letrasUnicasSet.add(letra)
-        }
+        if (letra) letrasUnicasSet.add(letra)
       })
     })
     const letrasUnicas = Array.from(letrasUnicasSet)
 
     // Cria um código de substituição aleatório
-    const novoCodigo: Record<string, string> = {}
-    const alfabetoEmbaralhado = embaralharArray([...ALPHABET])
-
-    letrasUnicas.forEach((letra, index) => {
-      novoCodigo[alfabetoEmbaralhado[index]] = letra
-    })
-
+    const novoCodigo: Record<string, string> = 
+      codigoExistente && Object.keys(codigoExistente).length > 0
+        ? codigoExistente
+        : (() => {
+            const codigo: Record<string, string> = {}
+            const alfabetoEmbaralhado = embaralharArray([...ALPHABET])
+            letrasUnicas.forEach((letra, index) => {
+              codigo[alfabetoEmbaralhado[index]] = letra
+            })
+            return codigo
+          })();
+      
     // Codifica a grade
     const gradeCodificada: string[][] = novaGrade.map((row) =>
       row.map((letra) => {
@@ -245,7 +292,7 @@ export default function Page() {
     const horas = Math.floor((ms / (1000 * 60 * 60)) % 24)
 
     return `${horas.toString().padStart(2, "0")}:${minutos.toString().padStart(2, "0")}:${segundos.toString().padStart(2, "0")}`
-  }
+  };
 
   // Revela uma tip
   const revelarDica = (index: number) => {
@@ -259,6 +306,7 @@ export default function Page() {
       "estadoJogoCruzadas",
       JSON.stringify({
         codeUser,
+        code,
         tipsRevealed: novasDicasReveladas,
         completed,
         score,
@@ -287,25 +335,47 @@ export default function Page() {
   }
 
   // Atualiza o código do usuário
-  const atualizarCodigoUsuario = (letraCodificada: string, letraDecodificada: string) => {
-    const novoCodigoUsuario = { ...codeUser }
+  const atualizarCodigoUsuario = (
+    letraCodificada: string,
+    letraDecodificada: string
+  ) => {
+    setCodeUser((codeUserAtual) => {
+      // Cria cópia para modificar
+      const novoCodigoUsuario = { ...codeUserAtual };
 
-    // Remove a letra decodificada de qualquer outra posição
-    Object.keys(novoCodigoUsuario).forEach((key) => {
-      if (novoCodigoUsuario[key] === letraDecodificada) {
-        delete novoCodigoUsuario[key]
+      // Remove a letra decodificada de qualquer outra posição (exclui duplicados)
+      Object.keys(novoCodigoUsuario).forEach((key) => {
+        if (novoCodigoUsuario[key] === letraDecodificada.toUpperCase()) {
+          delete novoCodigoUsuario[key];
+        }
+      });
+
+      if (letraDecodificada) {
+        const letraCorreta = code[letraCodificada] || "";
+
+        // Função para remover acentos
+        const removerAcentos = (str: string) =>
+          str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+        // Compara sem acento para validar
+        if (
+          removerAcentos(letraDecodificada.toLowerCase()) ===
+          removerAcentos(letraCorreta.toLowerCase())
+        ) {
+          // Atualiza com a letra correta (com acento)
+          novoCodigoUsuario[letraCodificada] = letraCorreta.toUpperCase();
+        } else {
+          // Atualiza com a letra digitada mesmo (sem acento ou erro)
+          novoCodigoUsuario[letraCodificada] = letraDecodificada.toUpperCase();
+        }
+      } else {
+        // Se letraDecodificada vazia, remove do código do usuário
+        delete novoCodigoUsuario[letraCodificada];
       }
-    })
 
-    // Adiciona ou remove a letra
-    if (letraDecodificada) {
-      novoCodigoUsuario[letraCodificada] = letraDecodificada.toUpperCase()
-    } else {
-      delete novoCodigoUsuario[letraCodificada]
-    }
-
-    setCodeUser(novoCodigoUsuario)
-  }
+      return novoCodigoUsuario;
+    });
+  };
 
   return (
     <div className="bg-[#ebc260] min-h-screen w-full">
@@ -330,22 +400,14 @@ export default function Page() {
             </span>
 
             {completed && (
-              <span className="text-sm border border-green-300 bg-green-50 rounded px-2 py-1 flex items-center gap-2">
-                <Trophy className="h-4 w-4 text-green-600" />
+              <span className="text-sm border border-yellow-300 bg-green-50 rounded px-2 py-1 flex items-center gap-2">
+                <Trophy className="h-4 w-4 text-yellow-600" />
                 Pontuação: {score}
               </span>
             )}
           </div>
 
-          {completed && (
-            <div className="flex items-start gap-2 bg-green-50 border border-green-200 p-3 rounded mb-4">
-              <Check className="h-4 w-4 text-green-600 mt-1" />
-              <div>
-                <p className="font-semibold">Parabéns!</p>
-                <p className="text-sm text-gray-700">Você completou o desafio de hoje!</p>
-              </div>
-            </div>
-          )}
+          {completed && <VictoryOrLose victoryStatus={victoryStatus} />}
 
           <div className="mb-4">
             <div className="flex justify-between items-center mb-2">
@@ -434,41 +496,10 @@ export default function Page() {
         </div>
 
         {/* Modal "Como jogar" */}
-        {showHowToPlay && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
-              <h2 className="text-lg font-semibold mb-2">Como jogar</h2>
-              <p className="mb-2">
-                Neste jogo, você precisa decifrar um código para revelar as words cruzadas.
-              </p>
-              <ol className="list-decimal pl-5 space-y-1 mb-4 text-sm text-gray-700">
-                <li>Cada letra foi substituída por outra letra do alfabeto</li>
-                <li>Use as dicas para tentar descobrir quais words estão escondidas</li>
-                <li>Digite suas suposições no decodificador abaixo da grade</li>
-                <li>Você pode revelar dicas ou letras se precisar de ajuda</li>
-              </ol>
-              <div className="text-right">
-                <button
-                  onClick={() => setShowHowToPlay(false)}
-                  className="text-sm px-3 py-1 border border-gray-300 rounded hover:bg-gray-100"
-                >
-                  Fechar
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        {showHowToPlay && <HowToPlayModal setShowHowToPlay={setShowHowToPlay} />}
       </div>
 
-      <footer className="max-w-2xl mx-auto py-4 text-center text-sm text-gray-600">
-        <p className="mb-2 font-semibold text-gray-800">Cruzacifra</p>
-        <p className="mb-1">Created by t-heu</p>
-        <div className="flex justify-center gap-6 text-gray-600">
-          <Link href="/changelog" className="hover:underline">Changelog</Link>
-          <Link href="/about" className="hover:underline">Sobre</Link>
-          <Link href="/contact" className="hover:underline">Contato</Link>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

@@ -92,6 +92,8 @@ export default function ChangelogPage() {
         { type: "new", text: "Adicionado novos temas" },
         { type: "new", text: "Adicionado dicionario" },
         { type: "fix", text: "Corrigido alguns bugs" },
+        { type: "new", text: "Adicionado info de vencedor e perdedor" },
+        { type: "new", text: "Adicionado suporte a palavras com acento" },
       ],
     },
     {
