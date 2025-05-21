@@ -82,18 +82,7 @@ export default function Page() {
       setCode({});
       setTimeStart(Date.now())
 
-      // Salva o estado inicial
-      localStorage.setItem(
-        "estadoJogoCruzadas",
-        JSON.stringify({
-          codeUser: {},
-          code: {},
-          results: [],
-          tipsRevealed: [],
-          completed: false,
-          score: 0,
-        }),
-      );
+      saveGameState(false, 0)
     }
 
     const { grid: novaGrade, code: novoCodigo } = gerarGradeECodigo(desafioHoje, codeRestored)
