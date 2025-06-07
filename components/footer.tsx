@@ -1,15 +1,14 @@
 "use client"
 
-import Link from "next/link"
+type FooterProps = {
+  dicasReveladas: number[];
+};
 
-const Footer = () => (
-  <footer className="max-w-2xl mx-auto py-4 text-center text-sm text-gray-600">
-    <p className="mb-2 font-semibold text-gray-800">Cruzacifra</p>
-    <p className="mb-1">Created by t-heu</p>
-    <div className="flex justify-center gap-6 text-gray-600">
-      <Link href="/changelog" className="hover:underline">Changelog</Link>
-      <Link href="/about" className="hover:underline">Sobre</Link>
-      <Link href="/contact" className="hover:underline">Contato</Link>
+const Footer = ({dicasReveladas}: FooterProps) => (
+  <footer className="bg-white rounded-lg shadow-md p-4">
+    <div className="flex justify-between items-center text-sm text-gray-500">
+      <span>{dicasReveladas.length} dicas reveladas</span>
+      <span>{new Date().toLocaleDateString("pt-BR")}</span>
     </div>
   </footer>
 )

@@ -1,49 +1,110 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Clock, HelpCircle, RefreshCw, Trophy } from "lucide-react"
 
-import {renderGrid} from "../components/grid";
-import {renderDecoder} from "../components/decoder";
-import {renderTips} from "../components/tips";
 import AdBanner from "../components/AdBanner";
 import Footer from "../components/footer";
-import HowToPlayModal from "../components/how-to-play-modal";
-import VictoryOrLose from "../components/victory-or-lose";
+import Header from "../components/header";
 
-import {generateWordCrosswords} from "../utils/generateWordCrosswords";
-import {generateRandomChallenge} from "../utils/generateRandomChallenge ";
+import {formatarTempoRestante} from "../utils/time";
 
-import {Challenge} from "./interfaces";
+// Estrutura de uma palavra
+type PalavraItem = {
+  palavra: string
+  dica: string
+}
 
-import challengesRaw from "../challenges.json";
+// Estrutura de uma palavra posicionada na grade
+type PalavraPosicionada = {
+  palavra: string
+  dica: string
+  linha: number
+  coluna: number
+  direcao: "horizontal" | "vertical"
+  numero: number
+}
 
-const CHALLENGES: Challenge[] = challengesRaw.map(challenge => ({
-  ...challenge,
-  words: challenge.words.map(p => ({
-    ...p,
-    direction: (p.direction === "horizontal" || p.direction === "vertical") ? p.direction : "horizontal",
-  })),
-}));
+// Conjuntos de palavras por tema (um tema por dia)
+const TEMAS_PALAVRAS: { titulo: string; palavras: PalavraItem[] }[] = [
+  {
+    titulo: "Animais",
+    palavras: [
+      { palavra: "GATO", dica: "Animal doméstico que mia" },
+      { palavra: "CACHORRO", dica: "Melhor amigo do homem" },
+      { palavra: "PEIXE", dica: "Animal aquático" },
+      { palavra: "COBRA", dica: "Réptil sem pernas" },
+      { palavra: "TIGRE", dica: "Felino com listras" },
+      { palavra: "RATO", dica: "Pequeno roedor" },
+      { palavra: "URSO", dica: "Grande mamífero peludo" },
+    ],
+  },
+  {
+    titulo: "Frutas",
+    palavras: [
+      { palavra: "BANANA", dica: "Fruta amarela alongada" },
+      { palavra: "MORANGO", dica: "Fruta vermelha pequena" },
+      { palavra: "MELANCIA", dica: "Fruta grande com interior vermelho" },
+      { palavra: "ABACAXI", dica: "Fruta tropical com casca áspera" },
+      { palavra: "UVA", dica: "Fruta usada para fazer vinho" },
+      { palavra: "MANGA", dica: "Fruta tropical doce" },
+      { palavra: "PERA", dica: "Fruta em formato de gota" },
+    ],
+  },
+  {
+    titulo: "Países",
+    palavras: [
+      { palavra: "BRASIL", dica: "País do samba e futebol" },
+      { palavra: "JAPAO", dica: "País do sol nascente" },
+      { palavra: "CANADA", dica: "País da folha de bordo" },
+      { palavra: "ITALIA", dica: "País da pizza e macarrão" },
+      { palavra: "EGITO", dica: "País das pirâmides" },
+      { palavra: "FRANCA", dica: "País da Torre Eiffel" },
+      { palavra: "CHINA", dica: "País da Grande Muralha" },
+    ],
+  },
+  {
+    titulo: "Profissões",
+    palavras: [
+      { palavra: "MEDICO", dica: "Profissional da saúde" },
+      { palavra: "PROFESSOR", dica: "Ensina em escolas" },
+      { palavra: "ENGENHEIRO", dica: "Projeta construções" },
+      { palavra: "COZINHEIRO", dica: "Prepara alimentos" },
+      { palavra: "PILOTO", dica: "Conduz aviões" },
+      { palavra: "ARTISTA", dica: "Cria obras de arte" },
+      { palavra: "DENTISTA", dica: "Cuida dos dentes" },
+    ],
+  },
+  {
+    titulo: "Cores",
+    palavras: [
+      { palavra: "AZUL", dica: "Cor do céu" },
+      { palavra: "VERMELHO", dica: "Cor do sangue" },
+      { palavra: "VERDE", dica: "Cor da grama" },
+      { palavra: "AMARELO", dica: "Cor do sol" },
+      { palavra: "ROXO", dica: "Mistura de azul e vermelho" },
+      { palavra: "LARANJA", dica: "Cor da fruta cítrica" },
+      { palavra: "ROSA", dica: "Cor da flor romântica" },
+    ],
+  },
+]
 
 // Alfabeto para codificação
-const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const ALFABETO = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 export default function Page() {
-  const [currentChallenge, setCurrentChallenge] = useState<Challenge | null>(null)
-  const [grid, setGrid] = useState<string[][]>([])
-  const [code, setCode] = useState<Record<string, string>>({})
-  const [codeUser, setCodeUser] = useState<Record<string, string>>({})
-  const [tipsRevealed, setTipsRevealed] = useState<number[]>([])
-  const [completed, setCompleted] = useState(false)
-  const [victoryStatus, setVictoryStatus] = useState<'win' | 'lose' | null>(null)
-  const [score, setScore] = useState(0)
-  const [timeStart, setTimeStart] = useState(0)
-  const [nextChallenge, setNextChallenge] = useState("")
-  const [progress, setProgress] = useState(0)
-  const [tabActive, setTabActive] = useState("jogo")
-  const [showHowToPlay, setShowHowToPlay]= useState(false)
-  const [lettersRevealed, setLettersRevealed] = useState(0);
+  const [temaAtual, setTemaAtual] = useState<(typeof TEMAS_PALAVRAS)[0] | null>(null)
+  const [palavrasPosicionadas, setPalavrasPosicionadas] = useState<PalavraPosicionada[]>([])
+  const [grade, setGrade] = useState<string[][]>([])
+  const [gradeNumeros, setGradeNumeros] = useState<number[][]>([])
+  const [codigo, setCodigo] = useState<Record<string, string>>({})
+  const [codigoUsuario, setCodigoUsuario] = useState<Record<string, string>>({})
+  const [dicasReveladas, setDicasReveladas] = useState<number[]>([])
+  const [concluido, setConcluido] = useState(false)
+  const [pontuacao, setPontuacao] = useState(0)
+  const [tempoInicio, setTempoInicio] = useState(0)
+  const [proximoDesafio, setProximoDesafio] = useState("")
+  const [progresso, setProgresso] = useState(0)
+  const [abaSelecionada, setAbaSelecionada] = useState("jogo")
 
   // Inicializa o jogo
   useEffect(() => {
@@ -51,51 +112,42 @@ export default function Page() {
     const diaDoAno = Math.floor(
       (hoje.getTime() - new Date(hoje.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24)
     );
-    const shouldUseRandom = diaDoAno % 2 === 0;
-
-    const desafioHoje: Challenge = shouldUseRandom
-      ? generateRandomChallenge(diaDoAno)
-      : CHALLENGES[diaDoAno % CHALLENGES.length];
+    const temaHoje = TEMAS_PALAVRAS[diaDoAno % TEMAS_PALAVRAS.length]
 
     // Verifica se já jogou hoje
     const ultimoJogo = localStorage.getItem("ultimoJogoCruzadas")
     const dataHoje = hoje.toLocaleDateString("pt-BR")
-    let codeRestored: Record<string, string> = {}
 
     if (ultimoJogo === dataHoje) {
       // Recupera o estado do jogo de hoje
-      const statusSaved = JSON.parse(localStorage.getItem("estadoJogoCruzadas") || "{}")
-      setCodeUser(statusSaved.codeUser || {})
-      setTipsRevealed(statusSaved.tipsRevealed || [])
-      setCompleted(statusSaved.completed || false)
-      setScore(statusSaved.score || 0)
-      setCode(statusSaved.code || {});
-      if (statusSaved.completed) setVictoryStatus(statusSaved.results[statusSaved.results.length - 1].status)
-      codeRestored = statusSaved.code || {}
+      const estadoSalvo = JSON.parse(localStorage.getItem("estadoJogoCruzadas") || "{}")
+      setCodigoUsuario(estadoSalvo.codigoUsuario || {})
+      setDicasReveladas(estadoSalvo.dicasReveladas || [])
+      setConcluido(estadoSalvo.concluido || false)
+      setPontuacao(estadoSalvo.pontuacao || 0)
     } else {
       // Novo jogo
       localStorage.setItem("ultimoJogoCruzadas", dataHoje)
-      setCodeUser({})
-      setTipsRevealed([])
-      setCompleted(false)
-      setScore(0)
-      setCode({});
-      setTimeStart(Date.now())
-
-      saveGameState(false, 0)
+      setCodigoUsuario({})
+      setDicasReveladas([])
+      setConcluido(false)
+      setPontuacao(0)
+      setTempoInicio(Date.now())
     }
 
-    const { grid: novaGrade, code: novoCodigo } = gerarGradeECodigo(desafioHoje, codeRestored)
-    // Configura o desafio
-    setCurrentChallenge(desafioHoje)
-    setGrid(novaGrade)
-    setCode(novoCodigo)
+    // Configura o tema
+    setTemaAtual(temaHoje)
+    const resultado = montarPalavrasCruzadas(temaHoje.palavras)
+    setPalavrasPosicionadas(resultado.palavras)
+    setGrade(resultado.grade)
+    setGradeNumeros(resultado.gradeNumeros)
+    setCodigo(resultado.codigo)
 
     // Calcula quando será o próximo desafio
     const amanha = new Date()
     amanha.setDate(amanha.getDate() + 1)
     amanha.setHours(0, 0, 0, 0)
-    setNextChallenge(formatarTempoRestante(amanha.getTime() - Date.now()))
+    setProximoDesafio(formatarTempoRestante(amanha.getTime() - Date.now()))
 
     // Atualiza o contador a cada segundo
     const intervalo = setInterval(() => {
@@ -103,165 +155,265 @@ export default function Page() {
       const amanha = new Date()
       amanha.setDate(amanha.getDate() + 1)
       amanha.setHours(0, 0, 0, 0)
-      setNextChallenge(formatarTempoRestante(amanha.getTime() - agora.getTime()))
+      setProximoDesafio(formatarTempoRestante(amanha.getTime() - agora.getTime()))
     }, 1000)
 
     return () => clearInterval(intervalo)
   }, [])
 
-  // Atualiza o progress quando o código do usuário muda
+  // Atualiza o progresso quando o código do usuário muda
   useEffect(() => {
-    if (!currentChallenge) return
+    if (!codigo || Object.keys(codigo).length === 0) return
 
-    // Calcula o progress
-    const totalLetras = Object.keys(code).length
-    const letrasCorretas = Object.entries(codeUser).filter(
-      ([codificada, decodificada]) => code[codificada] === decodificada,
+    // Calcula o progresso
+    const totalLetras = Object.keys(codigo).length
+    const letrasCorretas = Object.entries(codigoUsuario).filter(
+      ([codificada, decodificada]) => codigo[codificada] === decodificada,
     ).length
 
     const novoProgresso = totalLetras > 0 ? Math.floor((letrasCorretas / totalLetras) * 100) : 0
-    setProgress(novoProgresso)
+    setProgresso(novoProgresso)
 
     // Verifica se completou o desafio
-    const totalPreenchidos = Object.keys(codeUser).length
-    const todosPreenchidos = totalPreenchidos === totalLetras
-    const todasCorretas = novoProgresso === 100
-
-    if (todasCorretas && !completed) {
-      // Vitória
-      setVictoryStatus('win')
-      setCompleted(true)
-      const tempoGasto = Math.floor((Date.now() - timeStart) / 1000)
+    if (novoProgresso === 100 && !concluido) {
+      setConcluido(true)
+      const tempoGasto = Math.floor((Date.now() - tempoInicio) / 1000)
       const pontuacaoBase = 1000
-      const penalidade = (tempoGasto / 60) * 50 + tipsRevealed.length * 100
+      const penalidade = (tempoGasto / 60) * 50 + dicasReveladas.length * 100
       const novaPontuacao = Math.max(100, Math.floor(pontuacaoBase - penalidade))
-      setScore(novaPontuacao)
-      saveGameState(true, novaPontuacao, 'win')
-    } else if (todosPreenchidos && !todasCorretas && !completed) {
-      // Derrota
-      setVictoryStatus('lose')
-      setCompleted(true)
-      setScore(0)
-      saveGameState(false, 0, 'lose')
-    } else if (!completed) {
-      saveGameState(false, 0)
+      setPontuacao(novaPontuacao)
+
+      // Salva o estado
+      localStorage.setItem(
+        "estadoJogoCruzadas",
+        JSON.stringify({
+          codigoUsuario,
+          dicasReveladas,
+          concluido: true,
+          pontuacao: novaPontuacao,
+        }),
+      )
+    } else if (!concluido) {
+      // Salva o estado
+      localStorage.setItem(
+        "estadoJogoCruzadas",
+        JSON.stringify({
+          codigoUsuario,
+          dicasReveladas,
+          concluido: false,
+          pontuacao: 0,
+        }),
+      )
     }
-  }, [codeUser, currentChallenge, grid, code, completed, tipsRevealed, timeStart])
+  }, [codigoUsuario, codigo, concluido, dicasReveladas, tempoInicio])
 
-  function saveGameState(completedGame: boolean, scoreGame: number, status?: string) {
-    const now = new Date();
-    const todayStr = now.toLocaleDateString("pt-BR");
+  // Algoritmo para montar palavras cruzadas automaticamente
+  const montarPalavrasCruzadas = (palavrasOriginais: PalavraItem[]) => {
+    // Ordena palavras por tamanho (maiores primeiro para melhor encaixe)
+    const palavras = [...palavrasOriginais].sort((a, b) => b.palavra.length - a.palavra.length)
 
-    const savedData = JSON.parse(localStorage.getItem("estadoJogoCruzadas") || "{}");
-    const previousHistory = savedData.results ?? [];
-
-    // Verifica se já existe resultado 'win' ou 'lose' salvo hoje
-    const alreadySavedToday = previousHistory.some((entry: any) => {
-      const entryDate = new Date(entry.date).toLocaleDateString("pt-BR");
-      return entryDate === todayStr && (entry.status === 'win' || entry.status === 'lose');
-    });
-
-    const isWinOrLose = status === 'win' || status === 'lose';
-
-    const newData: any = {
-      ...savedData,
-      codeUser,
-      code,
-      tipsRevealed,
-      completed: completedGame,
-      score: scoreGame,
-      results: previousHistory, // padrão: não altera histórico
-    };
-
-    // Só adiciona se for win/lose e ainda não tiver salvo hoje
-    if (isWinOrLose && !alreadySavedToday) {
-      const newEntry = {
-        score: scoreGame,
-        date: now.toISOString(),
-        completed: completedGame,
-        status,
-      };
-
-      newData.results = [...previousHistory, newEntry];
-    }
-
-    // Salva sempre, mas só adiciona ao histórico uma vez por dia
-    localStorage.setItem("estadoJogoCruzadas", JSON.stringify(newData));
-  }
-
-  // Gera a grade e o código para o desafio
-  const gerarGradeECodigo = (desafio: Challenge, codigoExistente?: Record<string, string>) => {
-    // Encontra o tamanho necessário para a grade
-    let maxLinha = 0
-    let maxColuna = 0
-
-    const newWords = generateWordCrosswords(desafio.words)
-    desafio.words = newWords;
-
-    desafio.words.forEach((word) => {
-      const comprimento = word.word.length
-      if (word.direction === "horizontal") {
-        maxLinha = Math.max(maxLinha, word.row + 1)
-        maxColuna = Math.max(maxColuna, word.column + comprimento)
-      } else {
-        maxLinha = Math.max(maxLinha, word.row + comprimento)
-        maxColuna = Math.max(maxColuna, word.column + 1)
-      }
-    })
-
-    // Cria uma grade vazia
-    const novaGrade: string[][] = Array(maxLinha)
+    const palavrasPosicionadas: PalavraPosicionada[] = []
+    const tamanhoGrade = 20 // Grade 20x20
+    const grade: string[][] = Array(tamanhoGrade)
       .fill(null)
-      .map(() => Array(maxColuna).fill(""))
+      .map(() => Array(tamanhoGrade).fill(""))
 
-    // Preenche a grade com as words
-    desafio.words.forEach((word) => {
-      const letras = word.word.split("")
-      letras.forEach((letra, index) => {
-        if (word.direction === "horizontal") {
-          novaGrade[word.row][word.column + index] = letra
-        } else {
-          novaGrade[word.row + index][word.column] = letra
+    // Coloca a primeira palavra no centro da grade (horizontal)
+    const primeiraPalavra = palavras[0]
+    const linhaCentral = Math.floor(tamanhoGrade / 2)
+    const colunaCentral = Math.floor((tamanhoGrade - primeiraPalavra.palavra.length) / 2)
+
+    palavrasPosicionadas.push({
+      ...primeiraPalavra,
+      linha: linhaCentral,
+      coluna: colunaCentral,
+      direcao: "horizontal",
+      numero: 1,
+    })
+
+    // Preenche a grade com a primeira palavra
+    for (let i = 0; i < primeiraPalavra.palavra.length; i++) {
+      grade[linhaCentral][colunaCentral + i] = primeiraPalavra.palavra[i]
+    }
+
+    // Tenta posicionar as outras palavras
+    for (let i = 1; i < Math.min(palavras.length, 8); i++) {
+      const palavra = palavras[i]
+      const melhorPosicao = encontrarMelhorPosicao(palavra.palavra, grade, palavrasPosicionadas)
+
+      if (melhorPosicao) {
+        palavrasPosicionadas.push({
+          ...palavra,
+          ...melhorPosicao,
+          numero: i + 1,
+        })
+
+        // Preenche a grade com a nova palavra
+        for (let j = 0; j < palavra.palavra.length; j++) {
+          if (melhorPosicao.direcao === "horizontal") {
+            grade[melhorPosicao.linha][melhorPosicao.coluna + j] = palavra.palavra[j]
+          } else {
+            grade[melhorPosicao.linha + j][melhorPosicao.coluna] = palavra.palavra[j]
+          }
         }
+      }
+    }
+
+    // Cria grade de números para as palavras
+    const gradeNumeros: number[][] = Array(tamanhoGrade)
+      .fill(null)
+      .map(() => Array(tamanhoGrade).fill(0))
+
+    palavrasPosicionadas.forEach((palavra) => {
+      gradeNumeros[palavra.linha][palavra.coluna] = palavra.numero
+    })
+
+    // Cria o código de substituição
+    const letrasUnicas = new Set<string>()
+    grade.forEach((linha) => {
+      linha.forEach((letra) => {
+        if (letra) letrasUnicas.add(letra)
       })
     })
 
-    // Cria um conjunto de letras únicas na grade
-    const letrasUnicasSet = new Set<string>()
-    novaGrade.forEach((row) => {
-      row.forEach((letra) => {
-        if (letra) letrasUnicasSet.add(letra)
-      })
-    })
-    const letrasUnicas = Array.from(letrasUnicasSet)
+    const codigo: Record<string, string> = {}
+    const alfabetoEmbaralhado = embaralharArray([...ALFABETO])
+    const letrasArray = Array.from(letrasUnicas)
 
-    // Cria um código de substituição aleatório
-    const novoCodigo: Record<string, string> = 
-      codigoExistente && Object.keys(codigoExistente).length > 0
-        ? codigoExistente
-        : (() => {
-            const codigo: Record<string, string> = {}
-            const alfabetoEmbaralhado = embaralharArray([...ALPHABET])
-            letrasUnicas.forEach((letra, index) => {
-              codigo[alfabetoEmbaralhado[index]] = letra
-            })
-            return codigo
-          })();
-      
+    letrasArray.forEach((letra, index) => {
+      codigo[alfabetoEmbaralhado[index]] = letra
+    })
+
     // Codifica a grade
-    const gradeCodificada: string[][] = novaGrade.map((row) =>
-      row.map((letra) => {
+    const gradeCodificada = grade.map((linha) =>
+      linha.map((letra) => {
         if (!letra) return ""
-        const letraCodificada = Object.keys(novoCodigo).find((key) => novoCodigo[key] === letra) || ""
-        return letraCodificada
+        return Object.keys(codigo).find((key) => codigo[key] === letra) || ""
       }),
     )
 
     return {
-      grid: gradeCodificada,
-      code: novoCodigo,
-      letrasUnicas,
+      palavras: palavrasPosicionadas,
+      grade: gradeCodificada,
+      gradeNumeros,
+      codigo,
     }
+  }
+
+  // Encontra a melhor posição para uma palavra
+  const encontrarMelhorPosicao = (
+    palavra: string,
+    grade: string[][],
+    palavrasExistentes: PalavraPosicionada[],
+  ): { linha: number; coluna: number; direcao: "horizontal" | "vertical" } | null => {
+    const tamanhoGrade = grade.length
+    const possibilidades: Array<{
+      linha: number
+      coluna: number
+      direcao: "horizontal" | "vertical"
+      intersecoes: number
+    }> = []
+
+    // Tenta todas as posições possíveis
+    for (let linha = 0; linha < tamanhoGrade; linha++) {
+      for (let coluna = 0; coluna < tamanhoGrade; coluna++) {
+        // Tenta horizontal
+        if (coluna + palavra.length <= tamanhoGrade) {
+          const resultado = verificarPosicao(palavra, linha, coluna, "horizontal", grade)
+          if (resultado.valida && resultado.intersecoes > 0) {
+            possibilidades.push({
+              linha,
+              coluna,
+              direcao: "horizontal",
+              intersecoes: resultado.intersecoes,
+            })
+          }
+        }
+
+        // Tenta vertical
+        if (linha + palavra.length <= tamanhoGrade) {
+          const resultado = verificarPosicao(palavra, linha, coluna, "vertical", grade)
+          if (resultado.valida && resultado.intersecoes > 0) {
+            possibilidades.push({
+              linha,
+              coluna,
+              direcao: "vertical",
+              intersecoes: resultado.intersecoes,
+            })
+          }
+        }
+      }
+    }
+
+    // Retorna a posição com mais interseções
+    if (possibilidades.length === 0) return null
+
+    possibilidades.sort((a, b) => b.intersecoes - a.intersecoes)
+    return possibilidades[0]
+  }
+
+  // Verifica se uma palavra pode ser colocada em uma posição
+  const verificarPosicao = (
+    palavra: string,
+    linha: number,
+    coluna: number,
+    direcao: "horizontal" | "vertical",
+    grade: string[][],
+  ) => {
+    let intersecoes = 0
+    let valida = true
+
+    for (let i = 0; i < palavra.length; i++) {
+      const linhaAtual = direcao === "horizontal" ? linha : linha + i
+      const colunaAtual = direcao === "horizontal" ? coluna + i : coluna
+
+      const letraGrade = grade[linhaAtual][colunaAtual]
+      const letraPalavra = palavra[i]
+
+      if (letraGrade) {
+        // Já existe uma letra nesta posição
+        if (letraGrade === letraPalavra) {
+          intersecoes++
+        } else {
+          valida = false
+          break
+        }
+      } else {
+        // Verifica se há conflitos nas células adjacentes
+        const adjacentes = [
+          [-1, 0],
+          [1, 0],
+          [0, -1],
+          [0, 1],
+        ]
+
+        for (const [deltaLinha, deltaColuna] of adjacentes) {
+          const linhaAdj = linhaAtual + deltaLinha
+          const colunaAdj = colunaAtual + deltaColuna
+
+          if (
+            linhaAdj >= 0 &&
+            linhaAdj < grade.length &&
+            colunaAdj >= 0 &&
+            colunaAdj < grade[0].length &&
+            grade[linhaAdj][colunaAdj]
+          ) {
+            // Só permite adjacência se for na direção da palavra
+            const naDirecao =
+              (direcao === "horizontal" && deltaLinha === 0) || (direcao === "vertical" && deltaColuna === 0)
+
+            if (!naDirecao) {
+              valida = false
+              break
+            }
+          }
+        }
+
+        if (!valida) break
+      }
+    }
+
+    return { valida, intersecoes }
   }
 
   // Embaralha um array
@@ -274,200 +426,213 @@ export default function Page() {
     return novoArray
   }
 
-  // Formata o tempo restante para o próximo desafio
-  const formatarTempoRestante = (ms: number) => {
-    const segundos = Math.floor((ms / 1000) % 60)
-    const minutos = Math.floor((ms / (1000 * 60)) % 60)
-    const horas = Math.floor((ms / (1000 * 60 * 60)) % 24)
-
-    return `${horas.toString().padStart(2, "0")}:${minutos.toString().padStart(2, "0")}:${segundos.toString().padStart(2, "0")}`
-  };
-
-  // Revela uma tip
+  // Revela uma dica
   const revelarDica = (index: number) => {
-    if (tipsRevealed.includes(index)) return
+    if (dicasReveladas.includes(index)) return
 
-    const novasDicasReveladas = [...tipsRevealed, index]
-    setTipsRevealed(novasDicasReveladas)
-
-    // Salva o estado
-    localStorage.setItem(
-      "estadoJogoCruzadas",
-      JSON.stringify({
-        codeUser,
-        code,
-        tipsRevealed: novasDicasReveladas,
-        completed,
-        score,
-      }),
-    )
+    const novasDicasReveladas = [...dicasReveladas, index]
+    setDicasReveladas(novasDicasReveladas)
   }
 
   // Revela uma letra do código
   const revelarLetra = () => {
-    if (!currentChallenge) return
-    if (lettersRevealed >= 3) return
-
-    // Encontra uma letra que ainda não foi revelada corretamente
-    const letrasIncorretas = Object.keys(code).filter(
+    const letrasIncorretas = Object.keys(codigo).filter(
       (letraCodificada) =>
-        !codeUser[letraCodificada] || codeUser[letraCodificada] !== code[letraCodificada],
+        !codigoUsuario[letraCodificada] || codigoUsuario[letraCodificada] !== codigo[letraCodificada],
     )
 
     if (letrasIncorretas.length === 0) return
 
-    // Escolhe uma letra aleatória para revelar
     const letraParaRevelar = letrasIncorretas[Math.floor(Math.random() * letrasIncorretas.length)]
-    const novoCodigoUsuario = { ...codeUser, [letraParaRevelar]: code[letraParaRevelar] }
-    setCodeUser(novoCodigoUsuario)
-    setLettersRevealed((prev) => prev + 1)
+    const novoCodigoUsuario = { ...codigoUsuario, [letraParaRevelar]: codigo[letraParaRevelar] }
+    setCodigoUsuario(novoCodigoUsuario)
   }
 
   // Atualiza o código do usuário
-  const atualizarCodigoUsuario = (
-    letraCodificada: string,
-    letraDecodificada: string
-  ) => {
-    setCodeUser((codeUserAtual) => {
-      // Cria cópia para modificar
-      const novoCodigoUsuario = { ...codeUserAtual };
+  const atualizarCodigoUsuario = (letraCodificada: string, letraDecodificada: string) => {
+    const novoCodigoUsuario = { ...codigoUsuario }
 
-      // Remove a letra decodificada de qualquer outra posição (exclui duplicados)
-      Object.keys(novoCodigoUsuario).forEach((key) => {
-        if (novoCodigoUsuario[key] === letraDecodificada.toUpperCase()) {
-          delete novoCodigoUsuario[key];
-        }
-      });
-
-      if (letraDecodificada) {
-        const letraCorreta = code[letraCodificada] || "";
-
-        // Função para remover acentos
-        const removerAcentos = (str: string) =>
-          str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-
-        // Compara sem acento para validar
-        if (
-          removerAcentos(letraDecodificada.toLowerCase()) ===
-          removerAcentos(letraCorreta.toLowerCase())
-        ) {
-          // Atualiza com a letra correta (com acento)
-          novoCodigoUsuario[letraCodificada] = letraCorreta.toUpperCase();
-        } else {
-          // Atualiza com a letra digitada mesmo (sem acento ou erro)
-          novoCodigoUsuario[letraCodificada] = letraDecodificada.toUpperCase();
-        }
-      } else {
-        // Se letraDecodificada vazia, remove do código do usuário
-        delete novoCodigoUsuario[letraCodificada];
+    // Remove a letra decodificada de qualquer outra posição
+    Object.keys(novoCodigoUsuario).forEach((key) => {
+      if (novoCodigoUsuario[key] === letraDecodificada) {
+        delete novoCodigoUsuario[key]
       }
+    })
 
-      return novoCodigoUsuario;
-    });
-  };
+    // Adiciona ou remove a letra
+    if (letraDecodificada) {
+      novoCodigoUsuario[letraCodificada] = letraDecodificada.toUpperCase()
+    } else {
+      delete novoCodigoUsuario[letraCodificada]
+    }
+
+    setCodigoUsuario(novoCodigoUsuario)
+  }
+
+  // Renderiza a grade
+  const renderizarGrade = () => {
+    if (!grade.length) return null
+
+    // Encontra os limites da grade com conteúdo
+    let minLinha = grade.length,
+      maxLinha = -1,
+      minColuna = grade[0].length,
+      maxColuna = -1
+
+    for (let i = 0; i < grade.length; i++) {
+      for (let j = 0; j < grade[i].length; j++) {
+        if (grade[i][j]) {
+          minLinha = Math.min(minLinha, i)
+          maxLinha = Math.max(maxLinha, i)
+          minColuna = Math.min(minColuna, j)
+          maxColuna = Math.max(maxColuna, j)
+        }
+      }
+    }
+
+    // Adiciona margem
+    minLinha = Math.max(0, minLinha - 1)
+    maxLinha = Math.min(grade.length - 1, maxLinha + 1)
+    minColuna = Math.max(0, minColuna - 1)
+    maxColuna = Math.min(grade[0].length - 1, maxColuna + 1)
+
+    const gradeVisivel = []
+    for (let i = minLinha; i <= maxLinha; i++) {
+      const linha = []
+      for (let j = minColuna; j <= maxColuna; j++) {
+        linha.push({ letra: grade[i][j], numero: gradeNumeros[i][j] })
+      }
+      gradeVisivel.push(linha)
+    }
+
+    return (
+      <div className="flex justify-center mb-6">
+        <div className="grid gap-1 w-full" style={{ gridTemplateColumns: `repeat(${maxColuna - minColuna + 1}, minmax(0, 1fr))` }}>
+          {gradeVisivel.map((linha, linhaIndex) =>
+            linha.map((celula, colunaIndex) => (
+              <div
+                key={`${linhaIndex}-${colunaIndex}`}
+                className={`relative aspect-square border-2 flex flex-col items-center justify-center font-bold
+                  text-[10px] sm:text-xs md:text-sm
+                  ${celula.letra ? "border-gray-400 bg-white" : "border-transparent bg-gray-100"}
+                `}
+              >
+                {celula.numero > 0 && (
+                  <div className="absolute top-[2px] left-[2px] text-[9px] sm:text-[12px] text-blue-600 font-bold leading-none">
+                    {celula.numero}
+                  </div>
+                )}
+
+                {celula.letra && (
+                  <div className="flex flex-col items-center leading-none">
+                    <div className="text-[10px] sm:text-xs md:text-sm text-gray-500">
+                      {celula.letra}
+                    </div>
+                    <div
+                      className={`text-[12px] sm:text-sm md:text-base ${
+                        codigoUsuario[celula.letra] ? "text-blue-600" : "text-black"
+                      }`}
+                    >
+                      {codigoUsuario[celula.letra] || "."}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )),
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  // Renderiza o decodificador
+  const renderizarDecodificador = () => {
+    const letrasCodificadas = Object.keys(codigo).sort()
+
+    return (
+      <div className="grid grid-cols-4 sm:grid-cols-6 gap-3 mb-6">
+        {letrasCodificadas.map((letraCodificada) => (
+          <div key={letraCodificada} className="flex flex-col items-center">
+            <div className="text-lg font-bold mb-1">{letraCodificada}</div>
+            <input
+              type="text"
+              value={codigoUsuario[letraCodificada] || ""}
+              onChange={(e) => atualizarCodigoUsuario(letraCodificada, e.target.value)}
+              className="w-10 h-10 text-center text-lg font-bold border-2 border-gray-300 rounded focus:border-blue-500 focus:outline-none uppercase"
+              maxLength={1}
+              disabled={concluido}
+            />
+          </div>
+        ))}
+      </div>
+    )
+  }
 
   return (
-    <div className="bg-[#ebc260] min-h-screen w-full">
+    <div className="min-h-screen bg-[#ebc260] py-8">
       <AdBanner
         dataAdFormat="auto"
         dataFullWidthResponsive={true}
         dataAdSlot="9380851329"
       />
-      <div className="container max-w-2xl mx-auto px-4 py-8">
-        <div className="border rounded-lg shadow-sm p-6 mb-4 bg-white">
-          <div className="mb-4 text-center">
-            <h1 className="text-xl font-semibold">Cruzacifra</h1>
-            <p className="text-gray-600">
-              Decifre o código para revelar as words cruzadas codificadas do dia: {currentChallenge?.title || ""}
-            </p>
-          </div>
+      <div className="max-w-4xl mx-auto px-4">
+        {/* Header */}
+        <Header progresso={progresso} pontuacao={pontuacao} proximoDesafio={proximoDesafio} temaAtual={temaAtual} concluido={concluido} />
 
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm border border-gray-300 rounded px-2 py-1 flex items-center gap-2">
-              <Clock className="h-4 w-4" />
-              Próximo desafio em: {nextChallenge}
-            </span>
-
-            {completed && (
-              <span className="text-sm border border-yellow-300 bg-green-50 rounded px-2 py-1 flex items-center gap-2">
-                <Trophy className="h-4 w-4 text-yellow-600" />
-                Pontuação: {score}
-              </span>
-            )}
-          </div>
-
-          {completed && <VictoryOrLose victoryStatus={victoryStatus} />}
-
-          <div className="mb-4">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-sm">Progresso: {progress}%</span>
-              {!completed && (
+        {/* Tabs */}
+        <div className="bg-white rounded-lg shadow-md mb-6">
+          <div className="border-b border-gray-200">
+            <nav className="flex">
+              {["jogo", "decodificador", "dicas"].map((aba) => (
                 <button
-                  onClick={() => setShowHowToPlay(true)}
-                  className="text-sm px-2 py-1 border border-gray-300 rounded flex items-center gap-1 hover:bg-gray-100"
-                >
-                  <HelpCircle className="h-4 w-4" />
-                  Como jogar
-                </button>
-              )}
-            </div>
-
-            <div className="w-full bg-gray-200 h-2 rounded">
-              <div className="bg-blue-500 h-2 rounded" style={{ width: `${progress}%` }} />
-            </div>
-          </div>
-
-          {/* Tabs */}
-          <div className="mb-4">
-            <div className="grid grid-cols-3 mb-6 border-b">
-              {["jogo", "decodificador", "dicas"].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setTabActive(tab)}
-                  className={`py-2 text-sm border-b-2 ${
-                    tabActive === tab
-                      ? "border-blue-500 font-semibold"
-                      : "border-transparent text-gray-500 hover:text-black"
+                  key={aba}
+                  onClick={() => setAbaSelecionada(aba)}
+                  className={`px-6 py-3 text-sm font-medium capitalize ${
+                    abaSelecionada === aba
+                      ? "border-b-2 border-blue-500 text-blue-600"
+                      : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                  {aba}
                 </button>
               ))}
-            </div>
+            </nav>
+          </div>
 
-            {tabActive === "jogo" && (
-              <div className="overflow-x-auto w-full">
-                <div className="min-w-max mx-auto p-2">
-                  {renderGrid(grid, codeUser)}
-                </div>
-              </div>
-            )}
+          <div className="p-6">
+            {abaSelecionada === "jogo" && renderizarGrade()}
 
-            {tabActive === "decodificador" && (
+            {abaSelecionada === "decodificador" && (
               <div>
-                {renderDecoder(currentChallenge, code, codeUser, atualizarCodigoUsuario, completed)}
+                {renderizarDecodificador()}
 
-                {!completed && (
-                  <div className="flex justify-center mt-4 gap-2">      
-                    {lettersRevealed === 3 ? (
-                      <p className="text-sm flex items-center gap-1">
-                        Letras reveladas
-                      </p>
-                    ):(
-                      <button
-                        onClick={revelarLetra}
-                        className="text-sm px-3 py-1 border border-gray-300 rounded flex items-center gap-1 hover:bg-gray-100"
-                      >
-                        <HelpCircle className="h-4 w-4" />
-                        Revelar uma letra
-                      </button>
-                    )}
+                {!concluido && (
+                  <div className="flex flex-wrap gap-3 justify-center">
+                    <button
+                      onClick={revelarLetra}
+                      className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-colors"
+                    >
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                          fillRule="evenodd"
+                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Revelar uma letra
+                    </button>
 
                     <button
-                      onClick={() => setCodeUser({})}
-                      className="text-sm px-3 py-1 border border-gray-300 rounded flex items-center gap-1 hover:bg-gray-100"
+                      onClick={() => setCodigoUsuario({})}
+                      className="flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
                     >
-                      <RefreshCw className="h-4 w-4" />
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                          fillRule="evenodd"
+                          d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
                       Limpar
                     </button>
                   </div>
@@ -475,20 +640,44 @@ export default function Page() {
               </div>
             )}
 
-            {tabActive === "dicas" && <div>{renderTips(currentChallenge, tipsRevealed, completed, revelarDica)}</div>}
-          </div>
-
-          <div className="flex justify-between text-sm text-gray-500">
-            <div>{tipsRevealed.length} dicas reveladas</div>
-            <div>{new Date().toLocaleDateString("pt-BR")}</div>
+            {abaSelecionada === "dicas" && (
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium text-gray-800">Dicas das Palavras:</h3>
+                {palavrasPosicionadas.map((palavra, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2">
+                        <span className="bg-blue-500 text-white text-sm font-bold px-2 py-1 rounded">
+                          {palavra.numero}
+                        </span>
+                        <span className="text-sm font-medium text-gray-600">
+                          {palavra.direcao === "horizontal" ? "→" : "↓"}
+                        </span>
+                      </div>
+                      {dicasReveladas.includes(index) ? (
+                        <span className="text-gray-800">{palavra.dica}</span>
+                      ) : (
+                        <span className="text-gray-400">Dica oculta</span>
+                      )}
+                    </div>
+                    {!dicasReveladas.includes(index) && !concluido && (
+                      <button
+                        onClick={() => revelarDica(index)}
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition-colors"
+                      >
+                        Revelar
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Modal "Como jogar" */}
-        {showHowToPlay && <HowToPlayModal setShowHowToPlay={setShowHowToPlay} />}
+        {/* Footer */}
+        <Footer dicasReveladas={dicasReveladas} />
       </div>
-
-      <Footer />
     </div>
   )
 }
