@@ -507,39 +507,46 @@ export default function Page() {
 
     return (
       <div className="flex justify-center mb-6">
-        <div className="grid gap-1 w-full" style={{ gridTemplateColumns: `repeat(${maxColuna - minColuna + 1}, minmax(0, 1fr))` }}>
-          {gradeVisivel.map((linha, linhaIndex) =>
-            linha.map((celula, colunaIndex) => (
-              <div
-                key={`${linhaIndex}-${colunaIndex}`}
-                className={`relative aspect-square border-2 flex flex-col items-center justify-center font-bold
-                  text-[10px] sm:text-xs md:text-sm
-                  ${celula.letra ? "border-gray-400 bg-white" : "border-transparent bg-gray-100"}
-                `}
-              >
-                {celula.numero > 0 && (
-                  <div className="absolute top-[2px] left-[2px] text-[9px] sm:text-[12px] text-blue-600 font-bold leading-none">
-                    {celula.numero}
-                  </div>
-                )}
+        <div className="overflow-auto max-w-full">
+          <div
+            className="grid gap-1"
+            style={{
+              gridTemplateColumns: `repeat(${maxColuna - minColuna + 1}, 2.5rem)`
+            }}
+          >
+            {gradeVisivel.map((linha, linhaIndex) =>
+              linha.map((celula, colunaIndex) => (
+                <div
+                  key={`${linhaIndex}-${colunaIndex}`}
+                  className={`relative w-10 h-10 border-2 flex flex-col items-center justify-center font-bold
+                    text-[10px] sm:text-xs md:text-sm
+                    ${celula.letra ? "border-gray-400 bg-white" : "border-transparent bg-gray-100"}
+                  `}
+                >
+                  {celula.numero > 0 && (
+                    <div className="absolute top-[2px] left-[2px] text-[9px] sm:text-[12px] text-blue-600 font-bold leading-none">
+                      {celula.numero}
+                    </div>
+                  )}
 
-                {celula.letra && (
-                  <div className="flex flex-col items-center leading-none">
-                    <div className="text-[10px] sm:text-xs md:text-sm text-gray-500">
-                      {celula.letra}
+                  {celula.letra && (
+                    <div className="flex flex-col items-center leading-none">
+                      <div className="text-[10px] sm:text-xs md:text-sm text-gray-500">
+                        {celula.letra}
+                      </div>
+                      <div
+                        className={`text-[12px] sm:text-sm md:text-base ${
+                          codigoUsuario[celula.letra] ? "text-blue-600" : "text-black"
+                        }`}
+                      >
+                        {codigoUsuario[celula.letra] || "."}
+                      </div>
                     </div>
-                    <div
-                      className={`text-[12px] sm:text-sm md:text-base ${
-                        codigoUsuario[celula.letra] ? "text-blue-600" : "text-black"
-                      }`}
-                    >
-                      {codigoUsuario[celula.letra] || "."}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )),
-          )}
+                  )}
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
     )
@@ -582,7 +589,7 @@ export default function Page() {
         {/* Tabs */}
         <div className="bg-white rounded-lg shadow-md mb-6">
           <div className="border-b border-gray-200">
-            <nav className="flex">
+            <nav className="flex align-center w-full justify-around">
               {["jogo", "decodificador", "dicas"].map((aba) => (
                 <button
                   key={aba}
