@@ -8,16 +8,17 @@ type HeaderProps = {
   proximoDesafio: string;
   pontuacao: number;
   progresso: number;
+  lostOrWin: string | null;
 };
 
-const Header = ({concluido, temaAtual, proximoDesafio, pontuacao, progresso}: HeaderProps) => {
+const Header = ({concluido, temaAtual, proximoDesafio, pontuacao, progresso, lostOrWin}: HeaderProps) => {
   const [mostrarAjuda, setMostrarAjuda] = useState(false)
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 mb-6">
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">Palavras Cruzadas Codificadas</h1>
       <p className="text-center text-gray-600 mb-4">
-        Decifre o código para revelar as palavras cruzadas do dia: {temaAtual?.titulo || ""}
+        Decifre o código para revelar as palavras cruzadas do dia: {temaAtual?.title || ""}
       </p>
 
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -29,7 +30,7 @@ const Header = ({concluido, temaAtual, proximoDesafio, pontuacao, progresso}: He
               clipRule="evenodd"
             />
           </svg>
-          <span className="text-sm font-medium text-blue-800">Próximo em: {proximoDesafio}</span>
+          <span className="text-sm font-medium text-blue-800">Próximo tema em: {proximoDesafio}</span>
         </div>
 
         {concluido && (
@@ -75,18 +76,53 @@ const Header = ({concluido, temaAtual, proximoDesafio, pontuacao, progresso}: He
 
       {/* Alerta de conclusão */}
       {concluido && (
-        <div className="mt-4 bg-green-50 border border-green-200 rounded-lg p-4">
-          <div className="flex items-center">
-            <svg className="w-5 h-5 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                clipRule="evenodd"
-              />
-            </svg>
+        <div
+          className={`mt-6 p-5 rounded-xl shadow-md border-l-4 ${
+            lostOrWin === 'lost'
+              ? 'bg-red-50 border-red-400'
+              : 'bg-green-50 border-green-400'
+          }`}
+        >
+          <div className="flex items-start gap-3">
+            <div className="mt-1">
+              {lostOrWin === 'lost' ? (
+                <svg
+                  className="w-6 h-6 text-red-500"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM7.707 7.707a1 1 0 00-1.414-1.414L10 11.586l3.707-3.707a1 1 0 00-1.414-1.414L10 8.586 7.707 7.707z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="w-6 h-6 text-green-600"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              )}
+            </div>
             <div>
-              <h3 className="text-green-800 font-medium">Parabéns!</h3>
-              <p className="text-green-700 text-sm">Você completou o desafio de hoje!</p>
+              {lostOrWin === 'lost' ? (
+                <>
+                  <h3 className="text-red-600 font-semibold text-lg">Você perdeu!</h3>
+                  <p className="text-red-500 text-sm">Tente novamente no próximo desafio.</p>
+                </>
+              ) : (
+                <>
+                  <h3 className="text-green-700 font-semibold text-lg">Parabéns!</h3>
+                  <p className="text-green-600 text-sm">Você completou o desafio de hoje com sucesso!</p>
+                </>
+              )}
             </div>
           </div>
         </div>

@@ -1,13 +1,15 @@
-export interface Word {
+// Estrutura de uma word
+export type PalavraItem = {
   word: string
   tip: string
-  row: number
-  column: number
-  direction: "horizontal" | "vertical"
 }
 
-export interface Challenge {
-  id: number
-  title: string
-  words: Word[]
+// Estrutura de uma word posicionada na grade
+export type PalavraPosicionada = {
+  word: string
+  tip: string
+  linha: number
+  coluna: number
+  direcao: "horizontal" | "vertical"
+  numero: number
 }

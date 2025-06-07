@@ -2,94 +2,23 @@
 
 import { useEffect, useState } from "react"
 
-import AdBanner from "../components/AdBanner";
+import AdBanner from "../components/ad-banner";
 import Footer from "../components/footer";
 import Header from "../components/header";
 
 import {formatarTempoRestante} from "../utils/time";
+import {MAX_REVEAL, MAX_TIPS} from "../utils/config";
+import {shuffleWithSeed} from "../utils/daily-shuffled-alphabet";
 
-// Estrutura de uma palavra
-type PalavraItem = {
-  palavra: string
-  dica: string
-}
+import {PalavraItem, PalavraPosicionada} from "./interfaces";
 
-// Estrutura de uma palavra posicionada na grade
-type PalavraPosicionada = {
-  palavra: string
-  dica: string
-  linha: number
-  coluna: number
-  direcao: "horizontal" | "vertical"
-  numero: number
-}
+import words from "../challenges.json";
 
-// Conjuntos de palavras por tema (um tema por dia)
-const TEMAS_PALAVRAS: { titulo: string; palavras: PalavraItem[] }[] = [
-  {
-    titulo: "Animais",
-    palavras: [
-      { palavra: "GATO", dica: "Animal doméstico que mia" },
-      { palavra: "CACHORRO", dica: "Melhor amigo do homem" },
-      { palavra: "PEIXE", dica: "Animal aquático" },
-      { palavra: "COBRA", dica: "Réptil sem pernas" },
-      { palavra: "TIGRE", dica: "Felino com listras" },
-      { palavra: "RATO", dica: "Pequeno roedor" },
-      { palavra: "URSO", dica: "Grande mamífero peludo" },
-    ],
-  },
-  {
-    titulo: "Frutas",
-    palavras: [
-      { palavra: "BANANA", dica: "Fruta amarela alongada" },
-      { palavra: "MORANGO", dica: "Fruta vermelha pequena" },
-      { palavra: "MELANCIA", dica: "Fruta grande com interior vermelho" },
-      { palavra: "ABACAXI", dica: "Fruta tropical com casca áspera" },
-      { palavra: "UVA", dica: "Fruta usada para fazer vinho" },
-      { palavra: "MANGA", dica: "Fruta tropical doce" },
-      { palavra: "PERA", dica: "Fruta em formato de gota" },
-    ],
-  },
-  {
-    titulo: "Países",
-    palavras: [
-      { palavra: "BRASIL", dica: "País do samba e futebol" },
-      { palavra: "JAPAO", dica: "País do sol nascente" },
-      { palavra: "CANADA", dica: "País da folha de bordo" },
-      { palavra: "ITALIA", dica: "País da pizza e macarrão" },
-      { palavra: "EGITO", dica: "País das pirâmides" },
-      { palavra: "FRANCA", dica: "País da Torre Eiffel" },
-      { palavra: "CHINA", dica: "País da Grande Muralha" },
-    ],
-  },
-  {
-    titulo: "Profissões",
-    palavras: [
-      { palavra: "MEDICO", dica: "Profissional da saúde" },
-      { palavra: "PROFESSOR", dica: "Ensina em escolas" },
-      { palavra: "ENGENHEIRO", dica: "Projeta construções" },
-      { palavra: "COZINHEIRO", dica: "Prepara alimentos" },
-      { palavra: "PILOTO", dica: "Conduz aviões" },
-      { palavra: "ARTISTA", dica: "Cria obras de arte" },
-      { palavra: "DENTISTA", dica: "Cuida dos dentes" },
-    ],
-  },
-  {
-    titulo: "Cores",
-    palavras: [
-      { palavra: "AZUL", dica: "Cor do céu" },
-      { palavra: "VERMELHO", dica: "Cor do sangue" },
-      { palavra: "VERDE", dica: "Cor da grama" },
-      { palavra: "AMARELO", dica: "Cor do sol" },
-      { palavra: "ROXO", dica: "Mistura de azul e vermelho" },
-      { palavra: "LARANJA", dica: "Cor da fruta cítrica" },
-      { palavra: "ROSA", dica: "Cor da flor romântica" },
-    ],
-  },
-]
+// Conjuntos de words por tema (um tema por dia)
+const TEMAS_PALAVRAS: { title: string; words: PalavraItem[] }[] = words;
 
 // Alfabeto para codificação
-const ALFABETO = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 export default function Page() {
   const [temaAtual, setTemaAtual] = useState<(typeof TEMAS_PALAVRAS)[0] | null>(null)
@@ -105,6 +34,8 @@ export default function Page() {
   const [proximoDesafio, setProximoDesafio] = useState("")
   const [progresso, setProgresso] = useState(0)
   const [abaSelecionada, setAbaSelecionada] = useState("jogo")
+  const [revealLetter, setRevealLetter] = useState<number>(0)
+  const [lostOrWin, setLostOrWin] = useState<'win' | 'lost' | null>(null)
 
   // Inicializa o jogo
   useEffect(() => {
@@ -123,22 +54,26 @@ export default function Page() {
       const estadoSalvo = JSON.parse(localStorage.getItem("estadoJogoCruzadas") || "{}")
       setCodigoUsuario(estadoSalvo.codigoUsuario || {})
       setDicasReveladas(estadoSalvo.dicasReveladas || [])
+      setRevealLetter(estadoSalvo.revealLetter || 0)
       setConcluido(estadoSalvo.concluido || false)
       setPontuacao(estadoSalvo.pontuacao || 0)
+      setLostOrWin(estadoSalvo.lostOrWin || null)
     } else {
       // Novo jogo
       localStorage.setItem("ultimoJogoCruzadas", dataHoje)
       setCodigoUsuario({})
       setDicasReveladas([])
+      setRevealLetter(0)
       setConcluido(false)
+      setLostOrWin(null)
       setPontuacao(0)
       setTempoInicio(Date.now())
     }
 
     // Configura o tema
     setTemaAtual(temaHoje)
-    const resultado = montarPalavrasCruzadas(temaHoje.palavras)
-    setPalavrasPosicionadas(resultado.palavras)
+    const resultado = montarPalavrasCruzadas(temaHoje.words)
+    setPalavrasPosicionadas(resultado.words)
     setGrade(resultado.grade)
     setGradeNumeros(resultado.gradeNumeros)
     setCodigo(resultado.codigo)
@@ -174,9 +109,34 @@ export default function Page() {
     const novoProgresso = totalLetras > 0 ? Math.floor((letrasCorretas / totalLetras) * 100) : 0
     setProgresso(novoProgresso)
 
+    // ✅ Verifica se o jogador completou tudo mas errou alguma
+    const todasPreenchidas = Object.keys(codigoUsuario).length === totalLetras
+    const todasCorretas = letrasCorretas === totalLetras
+
+    if (todasPreenchidas && !todasCorretas && !concluido) {
+      setConcluido(true)
+      setPontuacao(0)
+      setLostOrWin('lost')
+
+      localStorage.setItem(
+        "estadoJogoCruzadas",
+        JSON.stringify({
+          codigoUsuario,
+          dicasReveladas,
+          revealLetter,
+          concluido: true,
+          pontuacao: 0,
+          lostOrWin: 'lost'
+        }),
+      )
+      return
+    }
+
     // Verifica se completou o desafio
     if (novoProgresso === 100 && !concluido) {
       setConcluido(true)
+      setLostOrWin('win');
+
       const tempoGasto = Math.floor((Date.now() - tempoInicio) / 1000)
       const pontuacaoBase = 1000
       const penalidade = (tempoGasto / 60) * 50 + dicasReveladas.length * 100
@@ -189,8 +149,10 @@ export default function Page() {
         JSON.stringify({
           codigoUsuario,
           dicasReveladas,
+          revealLetter,
           concluido: true,
           pontuacao: novaPontuacao,
+          lostOrWin: 'win'
         }),
       )
     } else if (!concluido) {
@@ -200,17 +162,19 @@ export default function Page() {
         JSON.stringify({
           codigoUsuario,
           dicasReveladas,
+          revealLetter,
           concluido: false,
           pontuacao: 0,
+          lostOrWin: null
         }),
       )
     }
   }, [codigoUsuario, codigo, concluido, dicasReveladas, tempoInicio])
 
-  // Algoritmo para montar palavras cruzadas automaticamente
+  // Algoritmo para montar words cruzadas automaticamente
   const montarPalavrasCruzadas = (palavrasOriginais: PalavraItem[]) => {
-    // Ordena palavras por tamanho (maiores primeiro para melhor encaixe)
-    const palavras = [...palavrasOriginais].sort((a, b) => b.palavra.length - a.palavra.length)
+    // Ordena words por tamanho (maiores primeiro para melhor encaixe)
+    const words = [...palavrasOriginais].sort((a, b) => b.word.length - a.word.length)
 
     const palavrasPosicionadas: PalavraPosicionada[] = []
     const tamanhoGrade = 20 // Grade 20x20
@@ -218,10 +182,10 @@ export default function Page() {
       .fill(null)
       .map(() => Array(tamanhoGrade).fill(""))
 
-    // Coloca a primeira palavra no centro da grade (horizontal)
-    const primeiraPalavra = palavras[0]
+    // Coloca a primeira word no centro da grade (horizontal)
+    const primeiraPalavra = words[0]
     const linhaCentral = Math.floor(tamanhoGrade / 2)
-    const colunaCentral = Math.floor((tamanhoGrade - primeiraPalavra.palavra.length) / 2)
+    const colunaCentral = Math.floor((tamanhoGrade - primeiraPalavra.word.length) / 2)
 
     palavrasPosicionadas.push({
       ...primeiraPalavra,
@@ -231,41 +195,41 @@ export default function Page() {
       numero: 1,
     })
 
-    // Preenche a grade com a primeira palavra
-    for (let i = 0; i < primeiraPalavra.palavra.length; i++) {
-      grade[linhaCentral][colunaCentral + i] = primeiraPalavra.palavra[i]
+    // Preenche a grade com a primeira word
+    for (let i = 0; i < primeiraPalavra.word.length; i++) {
+      grade[linhaCentral][colunaCentral + i] = primeiraPalavra.word[i]
     }
 
-    // Tenta posicionar as outras palavras
-    for (let i = 1; i < Math.min(palavras.length, 8); i++) {
-      const palavra = palavras[i]
-      const melhorPosicao = encontrarMelhorPosicao(palavra.palavra, grade, palavrasPosicionadas)
+    // Tenta posicionar as outras words
+    for (let i = 1; i < Math.min(words.length, 8); i++) {
+      const word = words[i]
+      const melhorPosicao = encontrarMelhorPosicao(word.word, grade, palavrasPosicionadas)
 
       if (melhorPosicao) {
         palavrasPosicionadas.push({
-          ...palavra,
+          ...word,
           ...melhorPosicao,
           numero: i + 1,
         })
 
-        // Preenche a grade com a nova palavra
-        for (let j = 0; j < palavra.palavra.length; j++) {
+        // Preenche a grade com a nova word
+        for (let j = 0; j < word.word.length; j++) {
           if (melhorPosicao.direcao === "horizontal") {
-            grade[melhorPosicao.linha][melhorPosicao.coluna + j] = palavra.palavra[j]
+            grade[melhorPosicao.linha][melhorPosicao.coluna + j] = word.word[j]
           } else {
-            grade[melhorPosicao.linha + j][melhorPosicao.coluna] = palavra.palavra[j]
+            grade[melhorPosicao.linha + j][melhorPosicao.coluna] = word.word[j]
           }
         }
       }
     }
 
-    // Cria grade de números para as palavras
+    // Cria grade de números para as words
     const gradeNumeros: number[][] = Array(tamanhoGrade)
       .fill(null)
       .map(() => Array(tamanhoGrade).fill(0))
 
-    palavrasPosicionadas.forEach((palavra) => {
-      gradeNumeros[palavra.linha][palavra.coluna] = palavra.numero
+    palavrasPosicionadas.forEach((word) => {
+      gradeNumeros[word.linha][word.coluna] = word.numero
     })
 
     // Cria o código de substituição
@@ -277,11 +241,11 @@ export default function Page() {
     })
 
     const codigo: Record<string, string> = {}
-    const alfabetoEmbaralhado = embaralharArray([...ALFABETO])
+    const shuffledAlphabet = shuffleWithSeed([...ALPHABET])
     const letrasArray = Array.from(letrasUnicas)
 
     letrasArray.forEach((letra, index) => {
-      codigo[alfabetoEmbaralhado[index]] = letra
+      codigo[shuffledAlphabet[index]] = letra
     })
 
     // Codifica a grade
@@ -293,16 +257,16 @@ export default function Page() {
     )
 
     return {
-      palavras: palavrasPosicionadas,
+      words: palavrasPosicionadas,
       grade: gradeCodificada,
       gradeNumeros,
       codigo,
     }
   }
 
-  // Encontra a melhor posição para uma palavra
+  // Encontra a melhor posição para uma word
   const encontrarMelhorPosicao = (
-    palavra: string,
+    word: string,
     grade: string[][],
     palavrasExistentes: PalavraPosicionada[],
   ): { linha: number; coluna: number; direcao: "horizontal" | "vertical" } | null => {
@@ -318,8 +282,8 @@ export default function Page() {
     for (let linha = 0; linha < tamanhoGrade; linha++) {
       for (let coluna = 0; coluna < tamanhoGrade; coluna++) {
         // Tenta horizontal
-        if (coluna + palavra.length <= tamanhoGrade) {
-          const resultado = verificarPosicao(palavra, linha, coluna, "horizontal", grade)
+        if (coluna + word.length <= tamanhoGrade) {
+          const resultado = verificarPosicao(word, linha, coluna, "horizontal", grade)
           if (resultado.valida && resultado.intersecoes > 0) {
             possibilidades.push({
               linha,
@@ -331,8 +295,8 @@ export default function Page() {
         }
 
         // Tenta vertical
-        if (linha + palavra.length <= tamanhoGrade) {
-          const resultado = verificarPosicao(palavra, linha, coluna, "vertical", grade)
+        if (linha + word.length <= tamanhoGrade) {
+          const resultado = verificarPosicao(word, linha, coluna, "vertical", grade)
           if (resultado.valida && resultado.intersecoes > 0) {
             possibilidades.push({
               linha,
@@ -352,9 +316,9 @@ export default function Page() {
     return possibilidades[0]
   }
 
-  // Verifica se uma palavra pode ser colocada em uma posição
+  // Verifica se uma word pode ser colocada em uma posição
   const verificarPosicao = (
-    palavra: string,
+    word: string,
     linha: number,
     coluna: number,
     direcao: "horizontal" | "vertical",
@@ -363,12 +327,12 @@ export default function Page() {
     let intersecoes = 0
     let valida = true
 
-    for (let i = 0; i < palavra.length; i++) {
+    for (let i = 0; i < word.length; i++) {
       const linhaAtual = direcao === "horizontal" ? linha : linha + i
       const colunaAtual = direcao === "horizontal" ? coluna + i : coluna
 
       const letraGrade = grade[linhaAtual][colunaAtual]
-      const letraPalavra = palavra[i]
+      const letraPalavra = word[i]
 
       if (letraGrade) {
         // Já existe uma letra nesta posição
@@ -398,7 +362,7 @@ export default function Page() {
             colunaAdj < grade[0].length &&
             grade[linhaAdj][colunaAdj]
           ) {
-            // Só permite adjacência se for na direção da palavra
+            // Só permite adjacência se for na direção da word
             const naDirecao =
               (direcao === "horizontal" && deltaLinha === 0) || (direcao === "vertical" && deltaColuna === 0)
 
@@ -416,17 +380,7 @@ export default function Page() {
     return { valida, intersecoes }
   }
 
-  // Embaralha um array
-  const embaralharArray = <T,>(array: T[]): T[] => {
-    const novoArray = [...array]
-    for (let i = novoArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[novoArray[i], novoArray[j]] = [novoArray[j], novoArray[i]]
-    }
-    return novoArray
-  }
-
-  // Revela uma dica
+  // Revela uma tip
   const revelarDica = (index: number) => {
     if (dicasReveladas.includes(index)) return
 
@@ -436,6 +390,10 @@ export default function Page() {
 
   // Revela uma letra do código
   const revelarLetra = () => {
+    if (revealLetter > MAX_REVEAL) return;
+
+    setRevealLetter(revealLetter+1)
+
     const letrasIncorretas = Object.keys(codigo).filter(
       (letraCodificada) =>
         !codigoUsuario[letraCodificada] || codigoUsuario[letraCodificada] !== codigo[letraCodificada],
@@ -584,7 +542,7 @@ export default function Page() {
       />
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
-        <Header progresso={progresso} pontuacao={pontuacao} proximoDesafio={proximoDesafio} temaAtual={temaAtual} concluido={concluido} />
+        <Header progresso={progresso} pontuacao={pontuacao} proximoDesafio={proximoDesafio} temaAtual={temaAtual} concluido={concluido} lostOrWin={lostOrWin} />
 
         {/* Tabs */}
         <div className="bg-white rounded-lg shadow-md mb-6">
@@ -615,19 +573,21 @@ export default function Page() {
 
                 {!concluido && (
                   <div className="flex flex-wrap gap-3 justify-center">
-                    <button
-                      onClick={revelarLetra}
-                      className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-colors"
-                    >
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                          fillRule="evenodd"
-                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      Revelar uma letra
-                    </button>
+                    {!(revealLetter > MAX_REVEAL) && (
+                      <button
+                        onClick={revelarLetra}
+                        className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-colors"
+                      >
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <path
+                            fillRule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        Revelar uma letra
+                      </button>
+                    )}
 
                     <button
                       onClick={() => setCodigoUsuario({})}
@@ -650,24 +610,24 @@ export default function Page() {
             {abaSelecionada === "dicas" && (
               <div className="space-y-4">
                 <h3 className="text-lg font-medium text-gray-800">Dicas das Palavras:</h3>
-                {palavrasPosicionadas.map((palavra, index) => (
+                {palavrasPosicionadas.map((word, index) => (
                   <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center gap-3">
                       <div className="flex items-center gap-2">
                         <span className="bg-blue-500 text-white text-sm font-bold px-2 py-1 rounded">
-                          {palavra.numero}
+                          {word.numero}
                         </span>
                         <span className="text-sm font-medium text-gray-600">
-                          {palavra.direcao === "horizontal" ? "→" : "↓"}
+                          {word.direcao === "horizontal" ? "→" : "↓"}
                         </span>
                       </div>
                       {dicasReveladas.includes(index) ? (
-                        <span className="text-gray-800">{palavra.dica}</span>
+                        <span className="text-gray-800">{word.tip}</span>
                       ) : (
                         <span className="text-gray-400">Dica oculta</span>
                       )}
                     </div>
-                    {!dicasReveladas.includes(index) && !concluido && (
+                    {!(dicasReveladas.length > MAX_TIPS) && (!dicasReveladas.includes(index) && !concluido) && (
                       <button
                         onClick={() => revelarDica(index)}
                         className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition-colors"

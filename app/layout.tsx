@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 
-import AdSense from "../components/AdSense";
+import AdSense from "../components/ad-sense";
 
 export const metadata: Metadata = {
   title: 'Cruzacifra',
