@@ -6,3 +6,10 @@ export const formatarTempoRestante = (ms: number) => {
 
   return `${horas.toString().padStart(2, "0")}:${minutos.toString().padStart(2, "0")}:${segundos.toString().padStart(2, "0")}`
 }
+
+// Formata tempo em segundos para exibição
+export const formatarTempo = (segundos: number) => {
+  const mins = Math.floor(segundos / 60)
+  const secs = segundos % 60
+  return `${mins}:${secs.toString().padStart(2, "0")}`
+}
