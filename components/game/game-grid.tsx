@@ -55,7 +55,7 @@ export function GameGrid({ grade, gradeNumeros, codigo, codigoUsuario }: GameGri
       <div className="w-full overflow-auto">
         <div className="flex justify-center min-w-fit px-4">
           <div
-            className="grid gap-1 p-4 bg-gray-700 rounded-lg mx-auto"
+            className="grid gap-1 p-4 bg-[#edc360] rounded-lg mx-auto"
             style={{
               gridTemplateColumns: `repeat(${numColunas}, 1fr)`,
               minWidth: `${numColunas * 3}rem`,
@@ -65,23 +65,23 @@ export function GameGrid({ grade, gradeNumeros, codigo, codigoUsuario }: GameGri
               linha.map((celula, colunaIndex) => (
                 <div
                   key={`${linhaIndex}-${colunaIndex}`}
-                  className={`relative w-12 h-12 sm:w-14 sm:h-14 border flex flex-col items-center justify-center text-sm font-medium transition-colors ${
-                    celula.letra ? "border-gray-600 bg-gray-800 hover:bg-gray-750" : "border-gray-600 bg-gray-800"
+                  className={`relative w-12 h-12 sm:w-14 sm:h-14 flex flex-col items-center justify-center text-sm font-medium transition-colors border-2 ${
+                    celula.letra ? "border-[#454a3f] bg-transparent hover:bg-gray-750" : "border-[#454a3f] bg-transparent"
                   }`}
                 >
                   {celula.numero > 0 && (
-                    <div className="absolute top-[2px] left-[2px] text-xs text-blue-400 font-semibold leading-none mb-1">{celula.numero}</div>
+                    <div className="absolute top-[2px] left-[2px] text-xs text-blue-900 font-semibold leading-none mb-1">{celula.numero}</div>
                   )}
                   {celula.letra && (
                     <div className="flex flex-col items-center">
-                      <div className="text-xs text-gray-400 mb-1">{celula.letra}</div>
+                      <div className="text-xs text-[#454a3f] mb-1">{celula.letra}</div>
                       <div
                         className={`text-sm font-semibold ${
                           codigoUsuario[celula.letra]
                             ? codigo[celula.letra] === codigoUsuario[celula.letra]
-                              ? "text-green-400"
-                              : "text-red-400"
-                            : "text-blue-800"
+                              ? "text-green-800"
+                              : "text-red-800"
+                            : "text-[#454a3f]"
                         }`}
                       >
                         {codigoUsuario[celula.letra] || "?"}

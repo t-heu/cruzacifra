@@ -106,7 +106,7 @@ export default function EstatisticasComponent() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-2xl shadow-xl p-8 text-center">
+      <div className="bg-[#edc360] text-[#454a3f] rounded-2xl shadow-xl p-8 text-center">
         <h2 className="text-4xl font-bold mb-2">Suas Estatísticas</h2>
         <p className="text-xl opacity-90">Acompanhe seu progresso e conquistas</p>
       </div>

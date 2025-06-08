@@ -54,12 +54,12 @@ const HomePage = () => {
 const TutorialPlaceholder = () => (
   <div className="bg-gray-800 rounded-lg border border-gray-700 p-8">
     <div className="text-center mb-8">
-      <BookOpen className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+      <BookOpen className="w-12 h-12 text-[#edc360] mx-auto mb-4" />
       <h2 className="text-2xl font-semibold text-white mb-2">Como Jogar</h2>
     </div>
     <div className="space-y-6">
       <div className="flex gap-4">
-        <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
+        <div className="w-8 h-8 bg-[#edc360] text-[#454a3f] rounded-full flex items-center justify-center font-semibold text-sm">
           1
         </div>
         <div>
@@ -70,7 +70,7 @@ const TutorialPlaceholder = () => (
         </div>
       </div>
       <div className="flex gap-4">
-        <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
+        <div className="w-8 h-8 bg-[#edc360] text-[#454a3f] rounded-full flex items-center justify-center font-semibold text-sm">
           2
         </div>
         <div>
@@ -81,7 +81,7 @@ const TutorialPlaceholder = () => (
         </div>
       </div>
       <div className="flex gap-4">
-        <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
+        <div className="w-8 h-8 bg-[#edc360] text-[#454a3f] rounded-full flex items-center justify-center font-semibold text-sm">
           3
         </div>
         <div>
@@ -98,12 +98,12 @@ const TutorialPlaceholder = () => (
 const AboutPlaceholder = () => (
   <div className="bg-gray-800 rounded-lg border border-gray-700 p-8">
     <div className="text-center mb-8">
-      <Info className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+      <Info className="w-12 h-12 text-[#edc360] mx-auto mb-4" />
       <h2 className="text-2xl font-semibold text-white mb-2">Sobre o Jogo</h2>
     </div>
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold text-white mb-3">O que é Palavras Cruzadas Codificadas?</h3>
+        <h3 className="text-lg font-semibold text-white mb-3">O que é Cruzacifra?</h3>
         <p className="text-gray-400 leading-relaxed">
           Um jogo de quebra-cabeças único que combina palavras cruzadas tradicionais com elementos de decodificação.
           Cada letra foi substituída por outra, criando um código que você precisa decifrar.

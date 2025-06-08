@@ -39,7 +39,7 @@ const Header = ({menuItems, setPaginaAtiva, paginaAtiva, setMenuAberto, menuAber
                   onClick={() => setPaginaAtiva(item.id)}
                   className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
                     paginaAtiva === item.id
-                      ? "bg-blue-600 text-white"
+                      ? "bg-[#edc360] text-[#454a3f]"
                       : "text-gray-400 hover:text-white hover:bg-gray-700"
                   }`}
                 >
@@ -74,7 +74,7 @@ const Header = ({menuItems, setPaginaAtiva, paginaAtiva, setMenuAberto, menuAber
                     }}
                     className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
                       paginaAtiva === item.id
-                        ? "bg-blue-600 text-white"
+                        ? "bg-[#edc360] text-[#454a3f]"
                         : "text-gray-400 hover:text-white hover:bg-gray-700"
                     }`}
                   >
