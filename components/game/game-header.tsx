@@ -37,11 +37,11 @@ export function GameHeader({
       {/* Estatísticas */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-blue-400 mb-1">{progresso}%</div>
+          <div className="text-2xl font-bold text-[#edc360] mb-1">{progresso}%</div>
           <div className="text-sm text-gray-400 mb-2">Progresso</div>
           <div className="w-full bg-gray-700 rounded-full h-2">
             <div
-              className="bg-blue-500 h-2 rounded-full transition-all duration-500"
+              className="bg-[#edc360] h-2 rounded-full transition-all duration-500"
               style={{ width: `${progresso}%` }}
             />
           </div>

@@ -25,7 +25,7 @@ export function GameTabs({ abaSelecionada, setAbaSelecionada }: GameTabsProps) {
               onClick={() => setAbaSelecionada(tab.id)}
               className={`flex-1 px-6 py-4 text-center transition-colors border-b-2 ${
                 abaSelecionada === tab.id
-                  ? "border-blue-500 bg-blue-600/20 text-blue-300"
+                  ? "border-[#edc360] bg-[#edc360]/20 text-[#edc360]/80"
                   : "border-transparent text-gray-400 hover:text-white hover:bg-gray-700"
               }`}
             >
