@@ -113,125 +113,75 @@ export default function EstatisticasComponent() {
 
       {/* Estatísticas Principais */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white rounded-xl shadow-lg p-6 text-center border-l-4 border-blue-500">
+        <div className="bg-gray-800 rounded-xl shadow-lg p-6 text-center border-l-4 border-blue-500">
           <div className="text-3xl font-bold text-blue-600 mb-2">{estatisticas.jogosCompletados}</div>
-          <div className="text-gray-600 font-medium">Jogos Completados</div>
-          <div className="text-sm text-gray-500 mt-1">Total de desafios resolvidos</div>
+          <div className="text-gray-400 font-medium">Jogos Completados</div>
+          <div className="text-sm text-gray-300 mt-1">Total de desafios resolvidos</div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-lg p-6 text-center border-l-4 border-green-500">
+        <div className="bg-gray-800 rounded-xl shadow-lg p-6 text-center border-l-4 border-green-500">
           <div className="text-3xl font-bold text-green-600 mb-2">{estatisticas.pontuacaoTotal.toLocaleString()}</div>
-          <div className="text-gray-600 font-medium">Pontuação Total</div>
-          <div className="text-sm text-gray-500 mt-1">Soma de todos os pontos</div>
+          <div className="text-gray-400 font-medium">Pontuação Total</div>
+          <div className="text-sm text-gray-300 mt-1">Soma de todos os pontos</div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-lg p-6 text-center border-l-4 border-purple-500">
+        <div className="bg-gray-800 rounded-xl shadow-lg p-6 text-center border-l-4 border-purple-500">
           <div className="text-3xl font-bold text-purple-600 mb-2">{estatisticas.sequenciaAtual}</div>
-          <div className="text-gray-600 font-medium">Sequência Atual</div>
-          <div className="text-sm text-gray-500 mt-1">Dias consecutivos jogando</div>
+          <div className="text-gray-400 font-medium">Sequência Atual</div>
+          <div className="text-sm text-gray-300 mt-1">Dias consecutivos jogando</div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-lg p-6 text-center border-l-4 border-orange-500">
+        <div className="bg-gray-800 rounded-xl shadow-lg p-6 text-center border-l-4 border-orange-500">
           <div className="text-3xl font-bold text-orange-600 mb-2">
             {estatisticas.melhorTempo > 0 ? formatarTempo(estatisticas.melhorTempo) : "N/A"}
           </div>
-          <div className="text-gray-600 font-medium">Melhor Tempo</div>
-          <div className="text-sm text-gray-500 mt-1">Recorde pessoal</div>
+          <div className="text-gray-400 font-medium">Melhor Tempo</div>
+          <div className="text-sm text-gray-300 mt-1">Recorde pessoal</div>
         </div>
       </div>
 
       {/* Estatísticas Detalhadas */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h3 className="text-xl font-bold text-gray-800 mb-6">📈 Desempenho</h3>
+        <div className="border-gray-600 bg-gray-800 rounded-xl shadow-lg p-6">
+          <h3 className="text-xl font-bold text-white mb-6">📈 Desempenho</h3>
           <div className="space-y-4">
-            <div className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-              <span className="text-gray-700 font-medium">Pontuação Média</span>
+            <div className="flex justify-between items-center p-4 bg-gray-700 rounded-lg">
+              <span className="text-gray-300 font-medium">Pontuação Média</span>
               <span className="text-lg font-bold text-blue-600">
                 {calcularMedia(estatisticas.pontuacaoTotal, estatisticas.jogosCompletados)}
               </span>
             </div>
-            <div className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-              <span className="text-gray-700 font-medium">Tempo Médio</span>
+            <div className="flex justify-between items-center p-4 bg-gray-700 rounded-lg">
+              <span className="text-gray-300 font-medium">Tempo Médio</span>
               <span className="text-lg font-bold text-green-600">
                 {estatisticas.jogosCompletados > 0
                   ? formatarTempo(calcularMedia(estatisticas.tempoTotal, estatisticas.jogosCompletados))
                   : "N/A"}
               </span>
             </div>
-            <div className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-              <span className="text-gray-700 font-medium">Melhor Sequência</span>
+            <div className="flex justify-between items-center p-4 bg-gray-700 rounded-lg">
+              <span className="text-gray-300 font-medium">Melhor Sequência</span>
               <span className="text-lg font-bold text-purple-600">{estatisticas.melhorSequencia} dias</span>
             </div>
-            <div className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-              <span className="text-gray-700 font-medium">Tempo Total Jogado</span>
+            <div className="flex justify-between items-center p-4 bg-gray-700 rounded-lg">
+              <span className="text-gray-300 font-medium">Tempo Total Jogado</span>
               <span className="text-lg font-bold text-orange-600">{formatarTempo(estatisticas.tempoTotal)}</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-lg p-6 h-[400px] overflow-y-auto">
-          <h3 className="text-xl font-bold text-gray-800 mb-6">🏆 Conquistas</h3>
+        <div className="border-gray-600 bg-gray-800 rounded-xl shadow-lg p-6 h-[400px] overflow-y-auto">
+          <h3 className="text-xl font-bold text-white mb-6">🏆 Conquistas</h3>
           <div className="space-y-4">
-            <div
-              className={`p-4 rounded-lg border-2 ${estatisticas.jogosCompletados >= 1 ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"}`}
-            >
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">{estatisticas.jogosCompletados >= 1 ? "🏅" : "⭕"}</span>
-                <div>
-                  <div className="font-semibold text-gray-800">Primeiro Jogo</div>
-                  <div className="text-sm text-gray-600">Complete seu primeiro desafio</div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className={`p-4 rounded-lg border-2 ${estatisticas.jogosCompletados >= 7 ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"}`}
-            >
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">{estatisticas.jogosCompletados >= 7 ? "🎯" : "⭕"}</span>
-                <div>
-                  <div className="font-semibold text-gray-800">Uma Semana</div>
-                  <div className="text-sm text-gray-600">Complete 7 desafios</div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className={`p-4 rounded-lg border-2 ${estatisticas.sequenciaAtual >= 7 ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"}`}
-            >
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">{estatisticas.sequenciaAtual >= 7 ? "🔥" : "⭕"}</span>
-                <div>
-                  <div className="font-semibold text-gray-800">Sequência de Fogo</div>
-                  <div className="text-sm text-gray-600">7 dias consecutivos</div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className={`p-4 rounded-lg border-2 ${estatisticas.pontuacaoTotal >= 10000 ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"}`}
-            >
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">{estatisticas.pontuacaoTotal >= 10000 ? "💎" : "⭕"}</span>
-                <div>
-                  <div className="font-semibold text-gray-800">Mestre dos Pontos</div>
-                  <div className="text-sm text-gray-600">10.000 pontos totais</div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className={`p-4 rounded-lg border-2 ${estatisticas.pontuacaoTotal >= 5000 ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"}`}
-            >
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">{estatisticas.pontuacaoTotal >= 5000 ? "💎" : "⭕"}</span>
-                <div>
-                  <div className="font-semibold text-gray-800">Amante dos Pontos</div>
-                  <div className="text-sm text-gray-600">5.000 pontos totais</div>
-                </div>
-              </div>
-            </div>
+            {conquistas.map((conquista, index) => (
+              <ConquistaCard
+                key={index}
+                titulo={conquista.titulo}
+                descricao={conquista.descricao}
+                icone={conquista.icone}
+                ativa={conquista.condicao(estatisticas)}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -275,3 +225,48 @@ export default function EstatisticasComponent() {
     </div>
   )
 }
+
+const conquistas = [
+  {
+    titulo: "Primeiro Jogo",
+    descricao: "Complete seu primeiro desafio",
+    icone: "🏅",
+    condicao: (estatisticas: any) => estatisticas.jogosCompletados >= 1,
+  },
+  {
+    titulo: "Uma Semana",
+    descricao: "Complete 7 desafios",
+    icone: "🎯",
+    condicao: (estatisticas: any) => estatisticas.jogosCompletados >= 7,
+  },
+  {
+    titulo: "Sequência de Fogo",
+    descricao: "7 dias consecutivos",
+    icone: "🔥",
+    condicao: (estatisticas: any) => estatisticas.sequenciaAtual >= 7,
+  },
+  {
+    titulo: "Amante dos Pontos",
+    descricao: "5.000 pontos totais",
+    icone: "💎",
+    condicao: (estatisticas: any) => estatisticas.pontuacaoTotal >= 5000,
+  },
+  {
+    titulo: "Mestre dos Pontos",
+    descricao: "10.000 pontos totais",
+    icone: "💎",
+    condicao: (estatisticas: any) => estatisticas.pontuacaoTotal >= 10000,
+  },
+];
+
+const ConquistaCard = ({ titulo, descricao, icone, ativa }: any) => (
+  <div className={`p-4 rounded-lg border-2 ${ativa ? "bg-green-50 border-green-200" : "bg-gray-700 border-gray-500"}`}>
+    <div className="flex items-center gap-3">
+      <span className="text-2xl">{ativa ? icone : "⭕"}</span>
+      <div>
+        <div className="font-semibold text-gray-300">{titulo}</div>
+        <div className="text-sm text-gray-400">{descricao}</div>
+      </div>
+    </div>
+  </div>
+);
