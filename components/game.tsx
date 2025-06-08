@@ -444,7 +444,7 @@ export default function JogoComponent() {
     <div className="space-y-8">
       {/* Header do Jogo */}
       <GameHeader 
-        concluido
+        concluido={concluido}
         temaAtual={temaAtual}
         tempoAtual={tempoAtual}
         melhorTempo={melhorTempo}
@@ -461,7 +461,7 @@ export default function JogoComponent() {
         codigo={codigo}
         codigoUsuario={codigoUsuario}
         setCodigoUsuario={setCodigoUsuario}
-        concluido
+        concluido={concluido}
         dicasReveladas={dicasReveladas}
         setDicasReveladas={setDicasReveladas}
         grade={grade}
